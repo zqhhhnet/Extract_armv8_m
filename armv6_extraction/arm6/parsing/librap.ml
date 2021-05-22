@@ -137,5 +137,7 @@ let filtitle t0 (Header (c, n, l, t)) =  t = t0
 let filpart c0 (Header (c, n, l, t)) =   c = c0 && List.length l = 2
 let filpart_kbc c0 (Header (c, n, l, t)) =   c = c0 && List.length l >= 2
 let filendinstr (Header (c, n, l, t)) =  List.length l = 1
+(* modified by hhh *)
+let filend n0 (Header (c, n, l, t)) = List.length l = 2 && List.nth l 1 >= n0
 
 let preftitle t0 (Header (c, n, l, t)) =  is_pref t0 t

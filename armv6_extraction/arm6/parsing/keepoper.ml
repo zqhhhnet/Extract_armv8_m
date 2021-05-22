@@ -21,12 +21,18 @@ ocamlc -pp camlp4o
 module LR = Librap
 
 (* Strings used for locating the beginning of interesting parts *)
+(* modified by hhh
 let alpha = "Alphabetical list of ARM instructions"
 let alphathumb = "Alphabetical list of Thumb instructions"
 let genotes = "General notes"
 let addrmodes = "Addressing Mode "
 let beforeopdescr = "Shifted register operand value"
-
+*)
+(* modified by hhh Set start bound *)
+let alpha = "Alphabetical list of instructions"
+let fir = "VLSTM"
+(* modified by hhh Set end bound *)
+let end_num = 380
 
 let to_next_Ainstr = LR.to_given_header (LR.filpart 'A')
 
@@ -41,6 +47,7 @@ and in_operation1 = parser
     print_endline a; in_operation s
 
 (* Only part A is considered in ARM manual *)
+(* modified by hhh Only part C is considered in ARM manual *)
 
 type stop_ou_encore = Stop | Continue | Op of LR.header 
 exception PB_check_then_to_operation_or_next_header
@@ -48,14 +55,19 @@ exception PB_check_then_to_operation_or_next_header
 let rec to_operation_or_next_header h = parser
   | [< ba = LR.blanks_alpha; s >] ->
       (match ba with 
-      | LR.NH "Operation" -> Op h
+      | LR.NH "Operation for all encodings" -> Op h
       | LR.NH _ -> to_operation_or_next_header h s
       | LR.SH h1 -> check_then_to_operation_or_next_header h1 s )
   | [< () = LR.eat_eol; s >] -> to_operation_or_next_header h s
 and check_then_to_operation_or_next_header h s = 
+      if LR.filend end_num h then Stop
+      else if LR.filpart 'C' h then to_operation_or_next_header h s
+      else Continue
+      (* modified by hhh
       if LR.filpart 'A' h then to_operation_or_next_header h s
       else if LR.filendinstr h then Stop
       else Continue
+      *)
 
 
 let rec loop_instrs = parser
@@ -73,8 +85,12 @@ let rec loop_instrs = parser
 
 let main = parser 
     [< _ = LR.to_given_header (LR.filtitle alpha);
+    (* modified by hhh
        _ = LR.to_given_header (LR.filtitle genotes);
+    *)
+       _ = LR.to_given_header (LR.filtitle fir);
        () = loop_instrs;
+       (* modified by hhh
        _ = LR.to_given_header (LR.preftitle addrmodes);
        (* 5 consecutive sections to analyze *)
        () = loop_instrs;
@@ -85,6 +101,7 @@ let main = parser
        _ = LR.to_given_header (LR.filtitle alphathumb);
        _ = LR.to_given_header (LR.filtitle genotes);
        () = loop_instrs;
+       *)
     >]
   -> ()
 

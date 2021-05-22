@@ -5,7 +5,7 @@ DIR := ..
 
 include $(DIR)/Makefile.common
 
-default: arm6.pc arm6.dec arm6.syntax
+default: arm8.pc arm8.dec arm8.syntax
 
 SUBDIRS := parsing
 
@@ -34,40 +34,40 @@ pdftotext: arm6.pdf
 ###########################################################################
 # patch application
 
-arm6patched.txt: arm6.txt arm6patch.ed
-	cp -f $< $@ && ed -s $@ < arm6patch.ed
+# arm6patched.txt: arm6.txt arm6patch.ed
+#	cp -f $< $@ && ed -s $@ < arm6patch.ed
 
-clean::
-	rm -f arm6patched.txt
+# clean::
+#	rm -f arm6patched.txt
 
 ###########################################################################
 # update patch
 
-.PHONY: patch
+# .PHONY: patch
 
-patch: arm6.txt arm6patched.txt
-	-diff -e $+ > arm6patch.ed; echo w >> arm6patch.ed
+# patch: arm6.txt arm6patched.txt
+#	-diff -e $+ > arm6patch.ed; echo w >> arm6patch.ed
 
 ###########################################################################
 # parsing
 
-.DELETE_ON_ERROR: arm6.pc
+.DELETE_ON_ERROR: arm8.pc
 
-arm6.pc: arm6patched.txt parsing/keepoper parsing/oneline_expr \
+arm8.pc: armv8_m.txt parsing/keepoper parsing/oneline_expr \
 		parsing/preproc_pseudo.sh parsing/indentation
 	$(SHOW) generate $@ from $<
 	$(HIDE) cat $< | parsing/keepoper | parsing/oneline_expr \
 		| parsing/preproc_pseudo.sh | parsing/indentation > $@
 
-.DELETE_ON_ERROR: arm6.dec
+.DELETE_ON_ERROR: arm8.dec
 
-arm6.dec: arm6patched.txt parsing/keepbincode parsing/parsebincode
+arm8.dec: armv8_m.txt parsing/keepbincode parsing/parsebincode
 	$(SHOW) generate $@ from $<
 	$(HIDE) cat $< | parsing/keepbincode | parsing/parsebincode > $@
 
-.DELETE_ON_ERROR: arm6.syntax
+.DELETE_ON_ERROR: arm8.syntax
 
-arm6.syntax: arm6patched.txt parsing/keepsyntax parsing/parsesyntax \
+arm8.syntax: armv8_m.txt parsing/keepsyntax parsing/parsesyntax \
 		parsing/blanks_syntax.sh
 	$(SHOW) generate $@ from $<
 	$(HIDE) cat $< | parsing/keepsyntax | parsing/blanks_syntax.sh \
@@ -80,4 +80,4 @@ $(ARM6_PARSING:%=parsing/%): FORCE
 	$(MAKE) -C $(DIR)/arm6/parsing $(@:parsing/%=%)
 
 clean::
-	rm -f arm6.pc arm6.dec arm6.syntax
+	rm -f arm8.pc arm8.dec arm8.syntax
