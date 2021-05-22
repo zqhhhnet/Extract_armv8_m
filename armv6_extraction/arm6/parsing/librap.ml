@@ -100,9 +100,11 @@ let rec header = parser
   | [< '' ' ; s >] -> header s
   | [< ''A'..'Z' as c; s >] -> end_header c s
 
+(* modified by hhh *)
 let rec blanks_alpha = parser
   | [< '' ' ; s >] -> blanks_alpha s
-  | [< ''A'..'Z' as c; s >] -> 
+  | [< ''A' | 'B' | 'D'..'Z' as c; s >] -> NH (take_eol c s)
+  | [< ''C' as c; s >] -> 
       try SH (end_header c s )
       with Not_header -> NH (take_eol c s)
 

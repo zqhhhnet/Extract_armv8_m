@@ -32,9 +32,9 @@ let beforeopdescr = "Shifted register operand value"
 let alpha = "Alphabetical list of instructions"
 let fir = "VLSTM"
 (* modified by hhh Set end bound *)
-let end_num = 380
+let end_num = 379
 
-let to_next_Ainstr = LR.to_given_header (LR.filpart 'A')
+let to_next_Ainstr = LR.to_given_header (LR.filpart 'C')
 
 
 let rec in_operation = parser 
