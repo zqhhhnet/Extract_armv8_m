@@ -53,11 +53,19 @@ pdftotext: arm6.pdf
 
 .DELETE_ON_ERROR: arm8.pc
 
+# arm8.pc: armv8_m.txt parsing/keepoper parsing/oneline_expr \
+#		parsing/preproc_pseudo.sh parsing/indentation
+#	$(SHOW) generate $@ from $<
+#	$(HIDE) cat $< | parsing/keepoper | parsing/oneline_expr \
+#		| parsing/preproc_pseudo.sh | parsing/indentation > $@
+
+# modified by hhh except begin end
+
 arm8.pc: armv8_m.txt parsing/keepoper parsing/oneline_expr \
-		parsing/preproc_pseudo.sh parsing/indentation
+		parsing/preproc_pseudo.sh
 	$(SHOW) generate $@ from $<
 	$(HIDE) cat $< | parsing/keepoper | parsing/oneline_expr \
-		| parsing/preproc_pseudo.sh | parsing/indentation > $@
+		| parsing/preproc_pseudo.sh > $@
 
 .DELETE_ON_ERROR: arm8.dec
 

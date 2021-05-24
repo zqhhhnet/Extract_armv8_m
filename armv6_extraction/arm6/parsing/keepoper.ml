@@ -33,10 +33,11 @@ let alpha = "Alphabetical list of instructions"
 let fir = "VLSTM"
 (* modified by hhh Set end bound *)
 let end_num = 379
+let blanks_add = "          "
 
 let to_next_Ainstr = LR.to_given_header (LR.filpart 'C')
 
-
+(*
 let rec in_operation = parser 
   | [< ''\n'; s >] -> in_operation1 s
   | [< 'c; a = LR.take_eol c; s >] -> 
@@ -45,6 +46,37 @@ and in_operation1 = parser
   | [< ''\n' >] -> ()
   | [< 'c; a = LR.take_eol c; s >] ->
     print_endline a; in_operation s
+*)
+
+(* modified by hhh *)
+let rec in_operation = parser
+  | [< ''\n'; s >] -> in_operation1 0 s
+  | [< 'c; a = LR.take_eol c; s>] ->
+    print_endline a; in_operation s 
+and in_operation1 n = parser
+  | [< ''\n'; s >] -> 
+    begin
+      (* n = n + 1; *)
+      if n = 0 then in_operation1 1 s
+      else if n = 1 then ()
+      else if n = 2 then in_operation2 0 s
+      else ()
+    end
+  | [< 'c; () = LR.skip_line; s>] -> in_operation1 2 s
+and in_operation2 n = parser
+  | [< ''\n'; s >] ->
+    begin
+      (* n = n + 1; *)
+      if n = 0 then in_operation2 1 s
+      else ()
+    end
+  | [< '' '; s >] -> in_operation3 s
+  | [< >] -> ()
+and in_operation3 = parser
+  | [< '' '; s >] -> in_operation3 s
+  | [< ''0'..'9' as c; a = LR.take_eol c; s >] ->
+    print_string blanks_add; print_endline a; in_operation3 s;
+  | [< ''\n'>] -> ()
 
 (* Only part A is considered in ARM manual *)
 (* modified by hhh Only part C is considered in ARM manual *)

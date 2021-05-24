@@ -42,6 +42,14 @@ let take_eol =
   let take_eol c s = Buffer.clear bu; Buffer.add_char bu c; aux s in
   take_eol
 
+(* modified by hhh *)
+let skip_line = 
+  let rec aux1 = parser
+  | [< ''\n' >] -> ()
+  | [<'c; s >] -> aux1 s in
+  let skip_line s = aux1 s in
+  skip_line
+
 exception Empty_line_expected
 let skip_empty_line = parser
     | [< ''\n' >] -> ()
