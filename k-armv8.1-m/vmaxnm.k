@@ -42,6 +42,8 @@ module VMAXNM
              else (mi(32, -1)) ) 
            ) else (mi(32, -1))
            )
+           
+           "FPSCR" |-> ( ifMInt (S ==K F32) then ( ifMInt (((uvalueMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 1, 9)) ==Int MaxExponentBits(8)) andBool ((neMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 9, 32), mi(23, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 9, 10), mi(1,0)))) orBool ((uvalueMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 1, 9)) ==Int MaxExponentBits(8)) andBool ((neMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 9, 32), mi(23, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 9, 10), mi(1,0)))) ) then (mi(32, 50331649)) else (mi(32, 50331648)) ) else ( ifMInt (S ==K F16) then ( ifMInt ((((uvalueMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 1, 6)) ==Int MaxExponentBits(5)) andBool ((neMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 6, 16), mi(10, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qn, I, RSMap), 6, 7), mi(1,0)))) orBool ((uvalueMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 1, 6)) ==Int MaxExponentBits(5)) andBool ((neMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 6, 16), mi(10, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 6, 7), mi(1,0))))) andBool (eqMInt(extractMInt(getReg("FPSCR", RSMap), 5, 6), mi(1,0))) ) then (mi(32, 50331649)) else (mi(32, 50331648)) ) else (mi(32, 50331648)) ) )
          )
        </regstate>
        
@@ -51,6 +53,9 @@ module VMAXNM
          RSMap:Map => updateMap(RSMap,
            convVecToRegKeys(Qd, I) |-> /* store 32 bit of result to lowest 32 bit of Qd */ ifMInt (neMInt(getParentValue(result, RSMap), mi(32, -1))) then ( plugInMask( ( /* finish [23:0] */ plugInMask( ( /* finish [15:0] */ plugInMask( (/* finish [7:0] */ plugInMask( getVecParentValue(Qd, I, RSMap) , extractMInt(getParentValue(result, RSMap), 24, 32) , 0) ) , extractMInt(getParentValue(result, RSMap), 16, 24) , 8) ) , extractMInt(getParentValue(result, RSMap), 8, 16) , 16) ) , extractMInt(getParentValue(result, RSMap), 0, 8) , 24) )
            else (mi(32, -1))
+           
+           "FPSCR" |-> ifMInt ((I >=Int 0) andBool (I <Int 3)) then (mi(32, 50331648)) 
+                       else (getReg("FPSCR", RSMap)) 
          )
        </regstate>
   
