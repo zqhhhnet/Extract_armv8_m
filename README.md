@@ -11,6 +11,7 @@
 ​	文档中，包含用K Framework 对Armv8.1-M中指令语义进行形式化的代码
 
 ​	使用： 
+    K version: https://github.com/zqhhhnet/k
 
 ​		编译：kompile armv8-semantics.k --backend java
 
