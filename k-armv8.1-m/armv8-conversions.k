@@ -71,7 +71,7 @@ module ARMV8-CONVERSIONS
   
   // Float
   rule GetInfinity(Mlen, Elen) => roundFloat(2.0 ^Float 1000000.0, Mlen, Elen)
-  rule GetNaN(Mlen, Elen) => roundFloat(0.0 /Float 0.0, Mlen, Elen)
+  rule GetNaN(Mlen, Elen) => roundFloat(0.0, Mlen, Elen)
   rule MinimumNormalizedFloat(P, E) => roundFloat(2.0, P, E) ^Float Int2Float(MinimumFloatingPointExponent(E), P, E)
   rule SignBitToSign(M, E, B) => Int2Float(1 -Int (B *Int 2), M, E)
   
