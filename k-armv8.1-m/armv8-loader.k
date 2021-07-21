@@ -44,8 +44,26 @@ module ARMV8-LOADER
     scan: scan the program and get them, for 4 beat
   */
   rule <k> scan => setDefaultRegs(OP) ~>
-                   beat1Result(OP . S OPR) ~> 
-                   execinstr1Beat(OP . S OPR) ~>
+    
+                   beatResult(OP . S OPR, 0) ~>
+                   execinstrBeat(OP . S OPR, 0) ~>
+                   registersMessage ~>
+                   
+                   beatResult(OP . S OPR, 1) ~>
+                   execinstrBeat(OP . S OPR, 1) ~>
+                   registersMessage ~>
+                   
+                   beatResult(OP . S OPR, 2) ~>
+                   execinstrBeat(OP . S OPR, 2) ~>
+                   registersMessage ~>
+                   
+                   beatResult(OP . S OPR, 3) ~>
+                   execinstrBeat(OP . S OPR, 3) ~>
+                   registersMessage ~>
+  		    
+  		/*
+                   beat1Result(OP . S OPR, 0) ~> 
+                   execinstr1Beat(OP . S OPR, 0) ~>
                    registersMessage ~> 
                    
                    beat2Result(OP . S OPR) ~>
@@ -60,7 +78,7 @@ module ARMV8-LOADER
                    beat4Result(OP . S OPR) ~>
                    execinstr4Beat(OP . S OPR) ~>
                    registersMessage ~>
-                   
+               */
                    scan ...</k>
        <instructiontext> code(L |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
        <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>

@@ -9,18 +9,26 @@ module ARMV8-ABSTRACT-SYNTAX
   syntax CodeInMemory ::= code(/*MInt -> storeInstr(Instruction)*/ Map)
   
   syntax AbsCommand ::= storedInstr(Instruction)
-  syntax AbsCommand ::= execinstr1Beat(Instruction)
+  syntax AbsCommand ::= execinstrBeat(Instruction, Int)
+  			/*
+                      | execinstr1Beat(Instruction, Int)
                       | execinstr2Beat(Instruction)
                       | execinstr3Beat(Instruction)
                       | execinstr4Beat(Instruction)
+                      */
                       | execinstr(Instruction)
   syntax AbsCommand ::= setDefaultRegs(Opcode)
-  syntax AbsCommand ::= beat1Result(Instruction)
+  syntax AbsCommand ::= beatResult(Instruction, Int)
+  			/*
+                      | beat1Result(Instruction, Int)
                       | beat2Result(Instruction)
                       | beat3Result(Instruction)
                       | beat4Result(Instruction)
+                      */
   
   syntax MInt ::= getReg(String, Map) [function]
+  
+  syntax Beat ::= Int
   
   syntax KItem ::= "scan" [token]
                  | "loadBegin"
@@ -37,12 +45,14 @@ module ARMV8-ABSTRACT-SYNTAX
     Sub registers to Registers
   */
   syntax Register ::= convSubRegsToRegs(Register) [function]
+                    | convSubVecRegsToRegs(Register, Beat) [function]
   
   /*@
     Translate register to Regstate keys
   */
   syntax String ::= convToRegKeys(Register) [function]
                   | convToRegKeysHelper(Register) [function]
+                  | convVecToRegKeys(Register, Beat) [function]
   
   syntax KItem ::= setRegisterValue(KItem, Register) [strict(1)]
   
@@ -56,24 +66,24 @@ module ARMV8-ABSTRACT-SYNTAX
   
   /*@
     Getting the registers values.
-      Ex. getRegisterValue(s0) -> 0-31 bits of q0
-      Ex. getRegisterValue(s1) -> 32-63 bits of q0
-      Ex. getRegisterValue(s2)-> 64-95 bits of q0
-      Ex. getRegisterValue(s3)-> lower 96-127 bits of q0
-      Ex. getRegisterValue(q0)-> lower 128 bits of q0
+      Ex. getRegisterValue(s0) -> 0-31 bits of s0
+      Ex. getRegisterValue(r0) -> 0-31 bits of r0
   */  
   syntax MInt  ::= getRegisterValue(Register, Map) [function]
   
+  
   /*@
     Getting the Parent register's values.
-      Ex. getParentValue(s0) -> 128 bits of q0
-      Ex. getParentValue(s1) -> 128 bits of q0
-      Ex. getParentValue(s2)-> 128 bits of q0
-      Ex. getParentValue(s3)-> 128 bits of q0
-      Ex. getParentValue(r0)-> 32 bits of r0
+      Ex. getParentValue(r0) -> 32 bits of r0
+      Ex. getVecParentValue(q0, 0) -> 32 bits of s0
+      Ex. getVecParentValue(q0, 1) -> 32 bits of s1
+      Ex. getVecParentValue(q0, 2)-> 32 bits of s2
+      Ex. getVecParentValue(q0, 3)-> 32 bits of s3
+      Ex. getVecParentValue(d0, 1)-> 32 bits of s1
   */  
+
   syntax MInt  ::= getParentValue(Register, Map) [function]
-  
+                 | getVecParentValue(Register, Beat, Map) [function]
   /*@
     handleImmediateWithSignExtend(Imm, M, N): Compute a MInt corresponding
     to the Imm value of width M and Sign Extend to bitwidth 

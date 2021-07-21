@@ -7,7 +7,11 @@ module ARMV8-ABSTRACT-SEMANTIC
     Translate register to Regstate keys
   */
   
-  rule convToRegKeys(R) =>  convToRegKeysHelper(convSubRegsToRegs(R))
+  rule convToRegKeys(R:S32) =>  convToRegKeysHelper(convSubRegsToRegs(R))
+  rule convToRegKeys(R:R32) =>  convToRegKeysHelper(convSubRegsToRegs(R))
+  rule convToRegKeys(R:VirtualReg) =>  convToRegKeysHelper(convSubRegsToRegs(R))
+  rule convVecToRegKeys(R:Q128, I:Beat) => convToRegKeysHelper(convSubVecRegsToRegs(R, I))
+  rule convVecToRegKeys(R:D64, I:Beat) => convToRegKeysHelper(convSubVecRegsToRegs(R, I))
 
   rule convToRegKeysHelper(r0)   => "R0"
   rule convToRegKeysHelper(r1)   => "R1"
@@ -25,14 +29,38 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule convToRegKeysHelper(r13)   => "R13"
   rule convToRegKeysHelper(r14)   => "R14"
   rule convToRegKeysHelper(r15)   => "R15"
-  rule convToRegKeysHelper(q0)  => "Q0"
-  rule convToRegKeysHelper(q1)  => "Q1"
-  rule convToRegKeysHelper(q2)  => "Q2"
-  rule convToRegKeysHelper(q3)  => "Q3"
-  rule convToRegKeysHelper(q4)  => "Q4"
-  rule convToRegKeysHelper(q5)  => "Q5"
-  rule convToRegKeysHelper(q6)  => "Q6"
-  rule convToRegKeysHelper(q7)  => "Q7"
+  rule convToRegKeysHelper(s0)  => "S0"
+  rule convToRegKeysHelper(s1)  => "S1"
+  rule convToRegKeysHelper(s2)  => "S2"
+  rule convToRegKeysHelper(s3)  => "S3"
+  rule convToRegKeysHelper(s4)  => "S4"
+  rule convToRegKeysHelper(s5)  => "S5"
+  rule convToRegKeysHelper(s6)  => "S6"
+  rule convToRegKeysHelper(s7)  => "S7"
+  rule convToRegKeysHelper(s8)  => "S8"
+  rule convToRegKeysHelper(s9)  => "S9"
+  rule convToRegKeysHelper(s10)  => "S10"
+  rule convToRegKeysHelper(s11)  => "S11"
+  rule convToRegKeysHelper(s12)  => "S12"
+  rule convToRegKeysHelper(s13)  => "S13"
+  rule convToRegKeysHelper(s14)  => "S14"
+  rule convToRegKeysHelper(s15)  => "S15"
+  rule convToRegKeysHelper(s16)  => "S16"
+  rule convToRegKeysHelper(s17)  => "S17"
+  rule convToRegKeysHelper(s18)  => "S18"
+  rule convToRegKeysHelper(s19)  => "S19"
+  rule convToRegKeysHelper(s20)  => "S20"
+  rule convToRegKeysHelper(s21)  => "S21"
+  rule convToRegKeysHelper(s22)  => "S22"
+  rule convToRegKeysHelper(s23)  => "S23"
+  rule convToRegKeysHelper(s24)  => "S24"
+  rule convToRegKeysHelper(s25)  => "S25"
+  rule convToRegKeysHelper(s26)  => "S26"
+  rule convToRegKeysHelper(s27)  => "S27"
+  rule convToRegKeysHelper(s28)  => "S28"
+  rule convToRegKeysHelper(s29)  => "S29"
+  rule convToRegKeysHelper(s30)  => "S30"
+  rule convToRegKeysHelper(s31)  => "S31"
   
   rule convToRegKeysHelper(result) => "RESULT"
   
@@ -61,78 +89,126 @@ module ARMV8-ABSTRACT-SEMANTIC
   
   rule convSubRegsToRegs(result) => result
   
-  rule convSubRegsToRegs(s0)  => q0
-  rule convSubRegsToRegs(s1)  => q0
-  rule convSubRegsToRegs(s2)  => q0
-  rule convSubRegsToRegs(s3)  => q0
+  rule convSubRegsToRegs(s0)  => s0
+  rule convSubRegsToRegs(s1)  => s1
+  rule convSubRegsToRegs(s2)  => s2
+  rule convSubRegsToRegs(s3)  => s3
+  rule convSubRegsToRegs(s4)  => s4
+  rule convSubRegsToRegs(s5)  => s5
+  rule convSubRegsToRegs(s6)  => s6
+  rule convSubRegsToRegs(s7)  => s7
+  rule convSubRegsToRegs(s8)  => s8
+  rule convSubRegsToRegs(s9)  => s9
+  rule convSubRegsToRegs(s10)  => s10
+  rule convSubRegsToRegs(s11)  => s11
+  rule convSubRegsToRegs(s12)  => s12
+  rule convSubRegsToRegs(s13)  => s13
+  rule convSubRegsToRegs(s14)  => s14
+  rule convSubRegsToRegs(s15)  => s15
+  rule convSubRegsToRegs(s16)  => s16
+  rule convSubRegsToRegs(s17)  => s17
+  rule convSubRegsToRegs(s18)  => s18
+  rule convSubRegsToRegs(s19)  => s19
+  rule convSubRegsToRegs(s20)  => s20
+  rule convSubRegsToRegs(s21)  => s21
+  rule convSubRegsToRegs(s22)  => s22
+  rule convSubRegsToRegs(s23)  => s23
+  rule convSubRegsToRegs(s24)  => s24
+  rule convSubRegsToRegs(s25)  => s25
+  rule convSubRegsToRegs(s26)  => s26
+  rule convSubRegsToRegs(s27)  => s27
+  rule convSubRegsToRegs(s28)  => s28
+  rule convSubRegsToRegs(s29)  => s29
+  rule convSubRegsToRegs(s30)  => s30
+  rule convSubRegsToRegs(s31)  => s31
   
-  rule convSubRegsToRegs(s4)  => q1
-  rule convSubRegsToRegs(s5)  => q1
-  rule convSubRegsToRegs(s6)  => q1
-  rule convSubRegsToRegs(s7)  => q1
+  rule convSubVecRegsToRegs(d0, 0)  => s0
+  rule convSubVecRegsToRegs(d0, 1)  => s1
+
+  rule convSubVecRegsToRegs(d1, 0)  => s2
+  rule convSubVecRegsToRegs(d1, 1)  => s3
   
-  rule convSubRegsToRegs(s8)  => q2
-  rule convSubRegsToRegs(s9)  => q2
-  rule convSubRegsToRegs(s10)  => q2
-  rule convSubRegsToRegs(s11)  => q2
+  rule convSubVecRegsToRegs(d2, 0)  => s4
+  rule convSubVecRegsToRegs(d2, 1)  => s5
   
-  rule convSubRegsToRegs(s12)  => q3
-  rule convSubRegsToRegs(s13)  => q3
-  rule convSubRegsToRegs(s14)  => q3
-  rule convSubRegsToRegs(s15)  => q3
+  rule convSubVecRegsToRegs(d3, 0)  => s6
+  rule convSubVecRegsToRegs(d3, 1)  => s7
   
-  rule convSubRegsToRegs(s16)  => q4
-  rule convSubRegsToRegs(s17)  => q4
-  rule convSubRegsToRegs(s18)  => q4
-  rule convSubRegsToRegs(s19)  => q4
+  rule convSubVecRegsToRegs(d4, 0)  => s8
+  rule convSubVecRegsToRegs(d4, 1)  => s9
   
-  rule convSubRegsToRegs(s20)  => q5
-  rule convSubRegsToRegs(s21)  => q5
-  rule convSubRegsToRegs(s22)  => q5
-  rule convSubRegsToRegs(s23)  => q5
+  rule convSubVecRegsToRegs(d5, 0)  => s10
+  rule convSubVecRegsToRegs(d5, 1)  => s11
   
-  rule convSubRegsToRegs(s24)  => q6
-  rule convSubRegsToRegs(s25)  => q6
-  rule convSubRegsToRegs(s26)  => q6
-  rule convSubRegsToRegs(s27)  => q6
+  rule convSubVecRegsToRegs(d6, 0)  => s12
+  rule convSubVecRegsToRegs(d6, 1)  => s13
   
-  rule convSubRegsToRegs(s28)  => q7
-  rule convSubRegsToRegs(s29)  => q7
-  rule convSubRegsToRegs(s30)  => q7
-  rule convSubRegsToRegs(s31)  => q7
+  rule convSubVecRegsToRegs(d7, 0)  => s14
+  rule convSubVecRegsToRegs(d7, 1)  => s15
+
+  rule convSubVecRegsToRegs(d8, 0)  => s16
+  rule convSubVecRegsToRegs(d8, 1)  => s17
   
-  rule convSubRegsToRegs(d0)  => q0
-  rule convSubRegsToRegs(d1)  => q0
+  rule convSubVecRegsToRegs(d9, 0)  => s18
+  rule convSubVecRegsToRegs(d9, 1)  => s19
   
-  rule convSubRegsToRegs(d2)  => q1
-  rule convSubRegsToRegs(d3)  => q1
+  rule convSubVecRegsToRegs(d10, 0)  => s20
+  rule convSubVecRegsToRegs(d10, 1)  => s21
   
-  rule convSubRegsToRegs(d4)  => q2
-  rule convSubRegsToRegs(d5)  => q2
+  rule convSubVecRegsToRegs(d11, 0)  => s22
+  rule convSubVecRegsToRegs(d11, 1)  => s23
   
-  rule convSubRegsToRegs(d6)  => q3
-  rule convSubRegsToRegs(d7)  => q3
+  rule convSubVecRegsToRegs(d12, 0)  => s24
+  rule convSubVecRegsToRegs(d12, 1)  => s25
   
-  rule convSubRegsToRegs(d8)  => q4
-  rule convSubRegsToRegs(d9)  => q4
+  rule convSubVecRegsToRegs(d13, 0)  => s26
+  rule convSubVecRegsToRegs(d13, 1)  => s27
   
-  rule convSubRegsToRegs(d10)  => q5
-  rule convSubRegsToRegs(d11)  => q5
+  rule convSubVecRegsToRegs(d14, 0)  => s28
+  rule convSubVecRegsToRegs(d14, 1)  => s29
   
-  rule convSubRegsToRegs(d12)  => q6
-  rule convSubRegsToRegs(d13)  => q6
+  rule convSubVecRegsToRegs(d15, 0)  => s30
+  rule convSubVecRegsToRegs(d15, 1)  => s31
   
-  rule convSubRegsToRegs(d14)  => q7
-  rule convSubRegsToRegs(d15)  => q7
+  rule convSubVecRegsToRegs(q0, 0) => s0
+  rule convSubVecRegsToRegs(q0, 1) => s1
+  rule convSubVecRegsToRegs(q0, 2) => s2
+  rule convSubVecRegsToRegs(q0, 3) => s3
   
-  rule convSubRegsToRegs(q0) => q0
-  rule convSubRegsToRegs(q1) => q1
-  rule convSubRegsToRegs(q2) => q2
-  rule convSubRegsToRegs(q3) => q3
-  rule convSubRegsToRegs(q4) => q4
-  rule convSubRegsToRegs(q5) => q5
-  rule convSubRegsToRegs(q6) => q6
-  rule convSubRegsToRegs(q7) => q7
+  rule convSubVecRegsToRegs(q1, 0) => s4
+  rule convSubVecRegsToRegs(q1, 1) => s5
+  rule convSubVecRegsToRegs(q1, 2) => s6
+  rule convSubVecRegsToRegs(q1, 3) => s7
+  
+  rule convSubVecRegsToRegs(q2, 0) => s8
+  rule convSubVecRegsToRegs(q2, 1) => s9
+  rule convSubVecRegsToRegs(q2, 2) => s10
+  rule convSubVecRegsToRegs(q2, 3) => s11
+  
+  rule convSubVecRegsToRegs(q3, 0) => s12
+  rule convSubVecRegsToRegs(q3, 1) => s13
+  rule convSubVecRegsToRegs(q3, 2) => s14
+  rule convSubVecRegsToRegs(q3, 3) => s15
+  
+  rule convSubVecRegsToRegs(q4, 0) => s16
+  rule convSubVecRegsToRegs(q4, 1) => s17
+  rule convSubVecRegsToRegs(q4, 2) => s18
+  rule convSubVecRegsToRegs(q4, 3) => s19
+  
+  rule convSubVecRegsToRegs(q5, 0) => s20
+  rule convSubVecRegsToRegs(q5, 1) => s21
+  rule convSubVecRegsToRegs(q5, 2) => s22
+  rule convSubVecRegsToRegs(q5, 3) => s23
+  
+  rule convSubVecRegsToRegs(q6, 0) => s24
+  rule convSubVecRegsToRegs(q6, 1) => s25
+  rule convSubVecRegsToRegs(q6, 2) => s26
+  rule convSubVecRegsToRegs(q6, 3) => s27
+  
+  rule convSubVecRegsToRegs(q7, 0) => s28
+  rule convSubVecRegsToRegs(q7, 1) => s29
+  rule convSubVecRegsToRegs(q7, 2) => s30
+  rule convSubVecRegsToRegs(q7, 3) => s31
   
   rule convSubRegsToRegs(r0) => r0
   rule convSubRegsToRegs(r1) => r1
@@ -174,11 +250,14 @@ module ARMV8-ABSTRACT-SEMANTIC
     Getting the registers values according to the register variants.
   */
   rule getRegisterValue(R:R32,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
-  rule getRegisterValue(R:Q128, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 128, 0)
+  rule getRegisterValue(R:S32, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
   // rule getRegisterValue(R:MRegs, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
   rule getRegisterValue(R:VirtualReg, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
   
   rule getParentValue(R:Register, RSMap) => getRegisterValue(convSubRegsToRegs(R), RSMap)
+  
+  rule getVecParentValue(R:Q128, I:Beat, RSMap) => getRegisterValue(convSubVecRegsToRegs(R, I), RSMap)
+  rule getVecParentValue(R:D64, I:Beat, RSMap) => getRegisterValue(convSubVecRegsToRegs(R, I), RSMap)
   
   /*@
     handleImmediateWithSignExtend(Imm, M, N): Compute a MInt corresponding
@@ -198,15 +277,19 @@ module ARMV8-ABSTRACT-SEMANTIC
     
   /*@ 
     Check if two registers are the same
-  */  
+  */
+  /*  
   rule sameRegisters(R1:Register, R2:Register) =>  convToRegKeys(R1) ==String  convToRegKeys(R2)
   rule sameRegisters(R1:Register, S2:String)   =>  convToRegKeys(R1) ==String  S2
+  */
   
   /*@ 
     Update Register's value at arbitrary position.
-  */  
+  */
+  /*  
   rule <k> setRegisterBitsAtPositon(MInew, R, P) => . ...</k>
-    <regstate>... convToRegKeys(R) |-> ( MIold => plugInMask(MIold, MInew, P)) ...</regstate>
+    <regstate>... convToRegKeys(R, I) |-> ( MIold => plugInMask(MIold, MInew, P)) ...</regstate>
+  */
   
   /*@ 
     getRegisterBitsAtPositon(R, P, N) 

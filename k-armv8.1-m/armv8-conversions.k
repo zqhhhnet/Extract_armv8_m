@@ -138,12 +138,12 @@ module ARMV8-CONVERSIONS
   
   rule roundToZero(F) => MInt2Float(mi(16, (SignBit(F) <<Int 15) |Int (ConvertExponent(exponentFloat(F)) <<Int 10) |Int ConvertMantissa(F)), 11, 5)
   
-  rule Float2Half(F, 0) => roundFloat(F, 11, 5) // This should work but doesn't (we wind up multiplying the float by 2?).  Bug in the ocaml backend - java works just fine?
+  rule Float2Half(F, 0) => roundFloat(F, 11, 5) 
 
 /*  rule Float2Half(F, 1) => GetNaN(11, 5) requires isNaN(F)
   rule Float2Half(F, 1) => GetNaN(11, 5) requires F >Float maxValueFloat(precisionFloat(F), exponentBitsFloat(F))
   rule Float2Half(F, 1) => --Float GetInfinity(11, 5) requires F <Float --Float maxValueFloat(precisionFloat(F), exponentBitsFloat(F))*/ 
-  // Need to work on handling of NaNs and Infinities.  In theory, these are well defined (my code just doesn't handle these cases... do we actually care?)
+  
 
   rule Float2Half(F, 1) => roundToZero(F) requires notBool signFloat(F) 
   rule Float2Half(F, 1) => roundAwayFromZero(F) requires signFloat(F)
@@ -165,7 +165,6 @@ module ARMV8-CONVERSIONS
   
   rule MantissaFloat(F) => MantissaFloat(absFloat(F) +Float MinimumNormalizedFloat(precisionFloat(F), exponentBitsFloat(F)))
   requires absFloat(F) <Float MinimumNormalizedFloat(precisionFloat(F), exponentBitsFloat(F)) 
-  // We simply avoid dealing with denormalized floating point numbers by transforming them to normalized floats with the same mantissa.
 
   rule MantissaFloat(F) => Float2Int(
     roundFloat(absFloat(F), precisionFloat(F), exponentBitsFloat(F) +Int 2) 
