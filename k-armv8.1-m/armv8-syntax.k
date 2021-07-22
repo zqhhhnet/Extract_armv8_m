@@ -52,8 +52,8 @@ module ARMV8-SYNTAX
                   | "vminv"		[token]
                   | "vminav"		[token]
   
-  syntax Opcode ::= "exit"
-                  
+  syntax Opcode ::= "end"
+                 
   syntax Register ::= R32
                     | Q128
                     | S32
@@ -173,9 +173,8 @@ module ARMV8-SYNTAX
                  | "F16"
                  | "F32"
                  | "F64"
-                 | "_0"
                  
-  syntax Start ::= "main" [token]
+  syntax Start ::= "start" [token]
   syntax Beginp ::= Start ":"
   
   syntax Operand ::= Register

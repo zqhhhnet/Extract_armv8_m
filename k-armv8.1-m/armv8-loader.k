@@ -14,31 +14,32 @@ module ARMV8-LOADER
   rule <k> OP:Opcode . S:Label OPR:Operands => . ...</k>
        <instructiontext> code(M:Map => M[L <- storedInstr(OP.S OPR)]) </instructiontext>
        <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
+       requires notBool (OP ==K end)
   
-  /*@
+  
   rule <k> OP:Opcode OPR:Operands => . ...</k>
        <instructiontext> code(M:Map => M[L <- storedInstr(OP OPR)]) </instructiontext>
-       <nextloc> L:MInt => addMInt(L, mi(64, 1)) </nextloc>
-  */ 
+       <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
+       requires (OP ==K end)
       
   rule <k> .Instructions => .K ...</k>
   
   /*@
     set the begin point
   */
-  rule <k> (main:Start:):Beginp => . ...</k>
-       <functarget> FMap:Map => FMap[main <- L] </functarget>
+  rule <k> (start:Start:):Beginp => . ...</k>
+       <functarget> FMap:Map => FMap[start <- L] </functarget>
        <nextloc> L </nextloc>
        
   
   /*@
     R15 is set to the entry point address corresponding to labels
-    "main"
+    "start"
   */
   rule <k> loadBegin => .K ...</k>
        <regstate> RSMap => RSMap["R15" <- LoadAddr] </regstate>
        <begin> _:K => LoadAddr </begin>
-       <functarget>... main:Start |-> LoadAddr:MInt ...</functarget>
+       <functarget>... start:Start |-> LoadAddr:MInt ...</functarget>
 
   /*@
     scan: scan the program and get them, for 4 beat
@@ -82,12 +83,12 @@ module ARMV8-LOADER
                    scan ...</k>
        <instructiontext> code(L |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
        <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
-         requires notBool (OP ==K exit)
+         requires notBool (OP ==K end)
   
-  rule <k> scan => execinstr(OP . S OPR) ~> registersMessage ~> scan ...</k>
-       <instructiontext> code(L |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
+  rule <k> scan => execinstr(OP OPR) ~> registersMessage ~> scan ...</k>
+       <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>
        <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
-         requires (OP ==K exit)
+         requires (OP ==K end)
   
   /*@
     if no more instruction, then exit
@@ -111,9 +112,9 @@ module ARMV8-LOADER
        <instructiontext> code(IMap) </instructiontext>
          requires notBool {RSMap["R15"]}:>MInt in_keys (IMap)
   
-  // Exit
-  syntax KItem ::= "exit_0"
-  rule <k> .K => exit_0 </k>
+  // end
+  syntax KItem ::= "End"
+  rule <k> .K => End </k>
     
 endmodule
 
