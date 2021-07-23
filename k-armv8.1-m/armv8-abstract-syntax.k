@@ -85,11 +85,10 @@ module ARMV8-ABSTRACT-SYNTAX
   syntax MInt  ::= getParentValue(Register, Map) [function]
                  | getVecParentValue(Register, Beat, Map) [function]
   /*@
-    handleImmediateWithSignExtend(Imm, M, N): Compute a MInt corresponding
-    to the Imm value of width M and Sign Extend to bitwidth 
-    N.
+    Imm convert to MInt
   */
-  syntax MInt ::=  handleImmediateWithSignExtend(Imm, Int, Int) [function]
+  syntax MInt ::= Imm2MInt(Imm, Int, Int) [function]
+  syntax Int  ::= modImm128(Imm)  [function]
   
   /*@ 
     Check if two registers are the same

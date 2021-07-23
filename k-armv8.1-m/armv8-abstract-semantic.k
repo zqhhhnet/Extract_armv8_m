@@ -10,9 +10,22 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule convToRegKeys(R:S32) =>  convToRegKeysHelper(convSubRegsToRegs(R))
   rule convToRegKeys(R:R32) =>  convToRegKeysHelper(convSubRegsToRegs(R))
   rule convToRegKeys(R:VirtualReg) =>  convToRegKeysHelper(convSubRegsToRegs(R))
+  
+  // for check
+  rule convToRegKeys(R:Q128) => convToRegKeysHelper(convSubRegsToRegs(R))
+  
   rule convVecToRegKeys(R:Q128, I:Beat) => convToRegKeysHelper(convSubVecRegsToRegs(R, I))
   rule convVecToRegKeys(R:D64, I:Beat) => convToRegKeysHelper(convSubVecRegsToRegs(R, I))
 
+  rule convToRegKeysHelper(q0)   => "Q0"
+  rule convToRegKeysHelper(q1)   => "Q1"
+  rule convToRegKeysHelper(q2)   => "Q2"
+  rule convToRegKeysHelper(q3)   => "Q3"
+  rule convToRegKeysHelper(q4)   => "Q4"
+  rule convToRegKeysHelper(q5)   => "Q5"
+  rule convToRegKeysHelper(q6)   => "Q6"
+  rule convToRegKeysHelper(q7)   => "Q7"
+  
   rule convToRegKeysHelper(r0)   => "R0"
   rule convToRegKeysHelper(r1)   => "R1"
   rule convToRegKeysHelper(r2)   => "R2"
@@ -29,6 +42,7 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule convToRegKeysHelper(r13)   => "R13"
   rule convToRegKeysHelper(r14)   => "R14"
   rule convToRegKeysHelper(r15)   => "R15"
+  
   rule convToRegKeysHelper(s0)  => "S0"
   rule convToRegKeysHelper(s1)  => "S1"
   rule convToRegKeysHelper(s2)  => "S2"
@@ -88,6 +102,15 @@ module ARMV8-ABSTRACT-SEMANTIC
   */
   
   rule convSubRegsToRegs(result) => result
+  
+  rule convSubRegsToRegs(q0)  => q0
+  rule convSubRegsToRegs(q1)  => q1
+  rule convSubRegsToRegs(q2)  => q2
+  rule convSubRegsToRegs(q3)  => q3
+  rule convSubRegsToRegs(q4)  => q4
+  rule convSubRegsToRegs(q5)  => q5
+  rule convSubRegsToRegs(q6)  => q6
+  rule convSubRegsToRegs(q7)  => q7
   
   rule convSubRegsToRegs(s0)  => s0
   rule convSubRegsToRegs(s1)  => s1
@@ -260,19 +283,20 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule getVecParentValue(R:D64, I:Beat, RSMap) => getRegisterValue(convSubVecRegsToRegs(R, I), RSMap)
   
   /*@
-    handleImmediateWithSignExtend(Imm, M, N): Compute a MInt corresponding
-    to the Imm value of width M and sign extend to N.
+    Imm convert to MInt
   */
 
-  // Imm could be an Int
-  rule handleImmediateWithSignExtend((# I:Int):Imm, M:Int, N:Int) => signExtend(mi(M,I), N)
+  //when imm is bigger than 2^128, mod imm
+  rule modImm128((# I:Int):Imm) => I modInt (2 ^Int 128)
+  // Int
+  rule Imm2MInt((# I:Int):Imm, M:Int, N:Int) => signExtend(mi(M, modImm128(# I)), N)
+       requires I >=Int (2 ^Int 128)
   
-  // Or a HexConstant: For hexconstants ike 0x800, we have to provide the substr 800
-  // as an argument to  String2Base                                          
+  rule Imm2MInt((# I:Int):Imm, M:Int, N:Int) => signExtend(mi(M, I), N)
+       requires I <Int (2 ^Int 128)
+  // Hexconst                                       
   syntax String ::= HexConstant2String ( HexInt )    [function, hook(STRING.token2string)]
-  //rule handleImmediateWithSignExtend($0x H:HexConstant, M:Int, N:Int) =>
-  //  signExtend(mi(M, String2Base(HexConstant2String(H), 16)), N)
-  rule handleImmediateWithSignExtend((H:HexInt):Imm, M:Int, N:Int) =>
+  rule Imm2MInt((H:HexInt):Imm, M:Int, N:Int) =>
     signExtend(mi(M, String2Base(substrString(HexConstant2String(H), 3, lengthString(HexConstant2String(H))), 16)), N)
     
   /*@ 
