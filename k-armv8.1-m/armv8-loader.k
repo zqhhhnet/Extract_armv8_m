@@ -20,7 +20,7 @@ module ARMV8-LOADER
   rule <k> OP:Opcode OPR:Operands => . ...</k>
        <instructiontext> code(M:Map => M[L <- storedInstr(OP OPR)]) </instructiontext>
        <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
-       requires (OP ==K end)
+       // requires (OP ==K end)
       
   rule <k> .Instructions => .K ...</k>
   
@@ -84,6 +84,28 @@ module ARMV8-LOADER
        <instructiontext> code(L |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
        <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
          requires notBool (OP ==K end)
+  
+  /*@
+    vmov
+  */
+  rule <k> scan => setDefaultRegs(OP) ~>
+    
+                   execinstrBeat(OP OPR, 0) ~>
+                   registersMessage ~>
+                   
+                   execinstrBeat(OP OPR, 1) ~>
+                   registersMessage ~>
+                   
+                   execinstrBeat(OP OPR, 2) ~>
+                   registersMessage ~>
+                   
+                   execinstrBeat(OP OPR, 3) ~>
+                   registersMessage ~>
+  		    
+                   scan ...</k>
+       <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
+         requires (OP ==K vmov)
   
   rule <k> scan => execinstr(OP OPR) ~> registersMessage ~> scan ...</k>
        <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>

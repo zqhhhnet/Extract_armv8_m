@@ -5,6 +5,7 @@ require "armv8-verification.k"
 require "armv8-mint.k"
 require "exit.k"
 require "vmaxnm.k"
+require "vmov.k"
 
 module ARMV8-SEMANTICS
   imports ARMV8-LOADER
@@ -14,4 +15,5 @@ module ARMV8-SEMANTICS
   imports ARMV8-MINT
   imports EXIT
   imports VMAXNM
+  imports VMOV
 endmodule

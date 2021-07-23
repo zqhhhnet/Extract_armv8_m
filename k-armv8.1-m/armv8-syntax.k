@@ -53,6 +53,7 @@ module ARMV8-SYNTAX
                   | "vminav"		[token]
   
   syntax Opcode ::= "end"
+                  | "vmov"		[token]
                  
   syntax Register ::= R32
                     | Q128
