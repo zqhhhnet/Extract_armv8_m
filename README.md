@@ -1,6 +1,7 @@
 # Extract_armv8_m
 
 === Using OCaml to extract the pesudocode of the instruction of Armv8.1-m architecture manual.===
+=== Based on K Framework, formalize the instruction's semantics ===
 
 
 
@@ -15,7 +16,10 @@
 
 ​		编译：kompile armv8-semantics.k --backend java
 
-​		运行：krun test.s --output-file "test.out"	//此处test.s为测试用例，结果输出到test.out中
+​	    测试案例:随机生成数据test, Benchmarks
+        test：./scripts/run_COMMAND.sh       // output to file "~/single-Inst-test/COMMAND.test"
+        Benchmark: ./scripts/COMMAND.sh     // output to file "single-Inst-test/COMMAND-bm.out"
+        //COMMAND is the mnemonic of the instruction.
 
 ***
 
@@ -38,10 +42,6 @@
 ​		armv8-configuration.k：配置其环境
 
 ​		armv8-loader.k：读取指令
-
-​		vmax.k：armv8.1-m 中的 VMAX指令，整数形式的规则，例：vmax.S8 q0, q1, q2
-
-​		vmaxnm.k：VMAXNM指令，浮点数形式规则，例： vmaxnm.F32 q1, q2, q3
 
 ​		armv8-semantics.k：整合以上文档，编译
 
