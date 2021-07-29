@@ -3,10 +3,10 @@ require "armv8-configuration.k"
 module VMOV
   imports ARMV8-CONFIGURATION
   
-  rule <k> setDefaultRegs(vmov:Opcode) => . ...</k>
+  rule <k> setDefaultRegs(VMOV:Opcode) => . ...</k>
        <regstate> RSMap:Map </regstate>
   
-  rule <k> execinstrBeat(vmov:Opcode Qd:Q128, Imm128:Imm, .Operands, I:Int) => . ...</k>
+  rule <k> execinstrBeat(VMOV:Opcode Qd:Q128, Imm128:Imm, .Operands, I:Int) => . ...</k>
        <regstate>
          RSMap:Map => updateMap(RSMap,
            convToRegKeys(Qd) |-> mi(128, modImm128(Imm128))
@@ -16,7 +16,7 @@ module VMOV
        )
        </regstate>
        
-  rule <k> execinstrBeat(vmov:Opcode Qd:Q128, Qs:Q128, .Operands, I:Int) => . ...</k>
+  rule <k> execinstrBeat(VMOV:Opcode Qd:Q128, Qs:Q128, .Operands, I:Int) => . ...</k>
        <regstate>
          RSMap:Map => updateMap(RSMap,
            convVecToRegKeys(Qd, I) |-> getVecParentValue(Qs, I, RSMap)
