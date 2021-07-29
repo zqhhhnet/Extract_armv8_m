@@ -29,6 +29,7 @@ module ARMV8-MINT-SYNTAX
   syntax MInt ::= "oneMIntW64"
   syntax MInt ::= "divideError"
   
+  syntax Bool ::= IsUndef(MInt) [function]
   
   syntax MInts ::= List{MInt, ""} [klabel(mintlist)]
   syntax Floats ::= List{Float, ""} [klabel(floatlist)]
@@ -290,20 +291,20 @@ module ARMV8-MINT
     requires (P ==Int 0) andBool (bitwidthMInt(MISrc) ==Int bitwidthMInt(MITarget))
   
   rule plugInMask(MITarget, MISrc, P) => concatenateMInt(
-          extractMask(MITarget, bitwidthMInt(MITarget) -Int bitwidthMInt(MISrc) , bitwidthMInt(MISrc)),
+          extractMInt(MITarget, 0 , (bitwidthMInt(MITarget) -Int bitwidthMInt(MISrc))),
           MISrc
           )
       requires (P ==Int 0) andBool (bitwidthMInt(MISrc) <Int bitwidthMInt(MITarget))
   
-  rule plugInMask(MITarget, MISrc, P) => concatenateMInt(MISrc, extractMask(MITarget, P, 0))
+  rule plugInMask(MITarget, MISrc, P) => concatenateMInt(MISrc, extractMInt(MITarget, bitwidthMInt(MISrc), bitwidthMInt(MITarget)))
       requires (P =/=Int 0) andBool ((P +Int bitwidthMInt(MISrc)) ==Int bitwidthMInt(MITarget))
 
 
     rule plugInMask(MITarget, MISrc, P) => concatenateMInt(
-          extractMask(MITarget, bitwidthMInt(MITarget) -Int bitwidthMInt(MISrc) -Int P , bitwidthMInt(MISrc) +Int P),
+          extractMInt(MITarget, 0 , (bitwidthMInt(MITarget) -Int bitwidthMInt(MISrc) -Int P)),
           concatenateMInt(
             MISrc,
-            extractMask(MITarget, P, 0)
+            extractMInt(MITarget, (bitwidthMInt(MITarget) -Int P), bitwidthMInt(MITarget))
             )
         )
       requires (P =/=Int 0) andBool ((P +Int bitwidthMInt(MISrc)) <Int bitwidthMInt(MITarget))
@@ -341,6 +342,13 @@ module ARMV8-MINT
       ), 1)
   */
   rule getSignBit(MI:MInt) => extractMInt(MI, 0, 1)
-
   
+  rule IsUndef(MI) => true requires   MI ==K undefMInt16
+  				orBool MI ==K undefMInt32
+  				orBool MI ==K undefMInt8
+  				orBool MI ==K undefMInt64
+  rule IsUndef(MI) => false requires notBool (MI ==K undefMInt16
+  				andBool MI ==K undefMInt32
+  				andBool MI ==K undefMInt8
+  				andBool MI ==K undefMInt64)
 endmodule

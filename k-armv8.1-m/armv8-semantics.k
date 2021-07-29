@@ -6,6 +6,15 @@ require "armv8-mint.k"
 require "exit.k"
 require "vmaxnm.k"
 require "vmov.k"
+require "vmaxa.k"
+require "vmaxnma.k"
+require "vmaxnmv.k"
+require "mov.k"
+require "vmaxnmav.k"
+require "vmaxv.k"
+require "vmaxav.k"
+require "vmin.k"
+require "vmina.k"
 
 module ARMV8-SEMANTICS
   imports ARMV8-LOADER
@@ -16,4 +25,13 @@ module ARMV8-SEMANTICS
   imports EXIT
   imports VMAXNM
   imports VMOV
+  imports VMAXA
+  imports VMAXNMA
+  imports VMAXNMV
+  imports MOV
+  imports VMAXNMAV
+  imports VMAXV
+  imports VMAXAV
+  imports VMIN
+  imports VMINA
 endmodule

@@ -45,19 +45,21 @@ module ARMV8-LOADER
     scan: scan the program and get them, for 4 beat
   */
   rule <k> scan => setDefaultRegs(OP) ~>
-    
                    beatResult(OP . S OPR, 0) ~>
                    execinstrBeat(OP . S OPR, 0) ~>
                    registersMessage ~>
                    
+                   setDefaultRegs(OP) ~>
                    beatResult(OP . S OPR, 1) ~>
                    execinstrBeat(OP . S OPR, 1) ~>
                    registersMessage ~>
                    
+                   setDefaultRegs(OP) ~>
                    beatResult(OP . S OPR, 2) ~>
                    execinstrBeat(OP . S OPR, 2) ~>
                    registersMessage ~>
                    
+                   setDefaultRegs(OP) ~>
                    beatResult(OP . S OPR, 3) ~>
                    execinstrBeat(OP . S OPR, 3) ~>
                    registersMessage ~>
@@ -105,7 +107,21 @@ module ARMV8-LOADER
                    scan ...</k>
        <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>
        <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
-         requires (OP ==K vmov)
+         requires (OP ==K VMOV)
+         
+  /*@
+    mov
+  */
+  /*@
+    vmov
+  */
+  rule <k> scan => setDefaultRegs(OP) ~>
+                   execinstr(OP OPR) ~>
+                   registersMessage ~>
+                   scan ...</k>
+       <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (L:MInt => addMInt(L, mi(32, 1))) ...</regstate>
+         requires (OP ==K MOV)
   
   rule <k> scan => execinstr(OP OPR) ~> registersMessage ~> scan ...</k>
        <instructiontext> code(L |-> storedInstr(OP OPR) _:Map) </instructiontext>

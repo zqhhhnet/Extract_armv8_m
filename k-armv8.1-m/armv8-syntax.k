@@ -35,25 +35,26 @@ module ARMV8-SYNTAX
     example: VMAX<v>.<dt> Qd, Qn, Qm
     <v> dose not affect the encode
   */
-  syntax Opcode ::= "vmax"		[token]
-                  | "vmaxa"		[token]
-                  | "vmaxnm"		[token]
-                  | "vmaxnma"		[token]
-                  | "vmaxnmv"		[token]
-                  | "vmaxnmav"	[token]
-                  | "vmaxv"		[token]
-                  | "vmaxav"		[token]
-                  | "vmin"		[token]
-                  | "vmina"		[token]
-                  | "vminnm"		[token]
-                  | "vminnma"		[token]
-                  | "vminnmv"		[token]
-                  | "vminnmav"	[token]
-                  | "vminv"		[token]
-                  | "vminav"		[token]
+  syntax Opcode ::= "VMAX"		[token]
+                  | "VMAXA"		[token]
+                  | "VMAXNM"		[token]
+                  | "VMAXNMA"		[token]
+                  | "VMAXNMV"		[token]
+                  | "VMAXNMAV"	[token]
+                  | "VMAXV"		[token]
+                  | "VMAXAV"		[token]
+                  | "VMIN"		[token]
+                  | "VMINA"		[token]
+                  | "VMINNM"		[token]
+                  | "VMINNMA"		[token]
+                  | "VMINNMV"		[token]
+                  | "VMINNMAV"	[token]
+                  | "VMINV"		[token]
+                  | "VMINAV"		[token]
   
   syntax Opcode ::= "end"
-                  | "vmov"		[token]
+                  | "VMOV"		[token]
+                  | "MOV"		[token]
                  
   syntax Register ::= R32
                     | Q128
