@@ -16,10 +16,11 @@
 
 ​		编译：kompile armv8-semantics.k --backend java
 
-​	    测试案例:随机生成数据test, Benchmarks
-        test：./scripts/run_COMMAND.sh       // output to file "~/single-Inst-test/COMMAND.test"
-        Benchmark: ./scripts/COMMAND.sh     // output to file "single-Inst-test/COMMAND-bm.out"
-        //COMMAND is the mnemonic of the instruction.
+​	    测试案例:随机生成数据test, Benchmarks. COMMAND is the mnemonic of the instruction.
+
+​	    test：./scripts/run_COMMAND.sh       // output to file "~/single-Inst-test/COMMAND.test"
+
+​	    Benchmark: ./scripts/COMMAND.sh     // output to file "single-Inst-test/COMMAND-bm.out"
 
 ***
 
