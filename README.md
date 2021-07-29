@@ -8,7 +8,7 @@
 
 ***
 
-​	文档中，包含用K Framework 对Armv8.1-M中指令语义进行形式化的代码
+​	文档中，包含用K Framework 对 Armv8.1-M 中 Arm Helium 向量化机器学习指令语义进行形式化的代码
 
 ​	使用： 
     K version: https://github.com/zqhhhnet/k
