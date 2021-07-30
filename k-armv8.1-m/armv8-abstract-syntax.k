@@ -123,12 +123,16 @@ module ARMV8-ABSTRACT-SYNTAX
   syntax MInt ::= AbsMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | MaxMIntOfFP(MInt, MInt, Int, Map)		[function]
                 | LeftAbsMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
+                | LeftAbsMinMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | LeftMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
+                | LeftMinMIntOfFP(MInt, MInt, Int, Map)	[function]
   
   /*@
     get the maximun MInt of Int
   */
   syntax MInt ::= MaxMIntOfInt(MInt, MInt, Int, Label, Map)		[function]
                | LeftAbsMaxMIntOfInt(MInt, MInt, Int, Map)	[function]	// for R and Q
+               | MinMIntOfInt(MInt, MInt, Int, Label, Map)	[function]
+               | LeftAbsMinMIntOfInt(MInt, MInt, Int, Map)	[function]
   
 endmodule

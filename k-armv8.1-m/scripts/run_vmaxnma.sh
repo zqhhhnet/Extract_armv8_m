@@ -1,7 +1,7 @@
 #!/bin/bash
 
 THIS_DIR="$(pwd)"
-K_DIR=$THIS_DIR/../PsCom/
+K_DIR=$THIS_DIR/../k-armv8.1-m/
 
 cd $K_DIR
 

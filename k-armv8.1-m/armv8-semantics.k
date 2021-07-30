@@ -15,6 +15,12 @@ require "vmaxv.k"
 require "vmaxav.k"
 require "vmin.k"
 require "vmina.k"
+require "vminv.k"
+require "vminav.k"
+require "vminnm.k"
+require "vminnma.k"
+require "vminnmv.k"
+require "vminnmav.k"
 
 module ARMV8-SEMANTICS
   imports ARMV8-LOADER
@@ -34,4 +40,10 @@ module ARMV8-SEMANTICS
   imports VMAXAV
   imports VMIN
   imports VMINA
+  imports VMINV
+  imports VMINAV
+  imports VMINNM
+  imports VMINNMA
+  imports VMINNMV
+  imports VMINNMAV
 endmodule

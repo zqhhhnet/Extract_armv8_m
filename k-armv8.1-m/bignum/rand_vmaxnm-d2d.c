@@ -32,14 +32,14 @@ void main(){
     	n = rand() % 16;
     	if(n == d){
     		n++;
-    		if(n == 8)
+    		if(n == 16)
     			n = 0;
     	}
     	
     	m = rand() % 16;
     	if(n == m){
     		m++;
-    		if(m == 8)
+    		if(m == 16)
     			m = 0;
     	}
     	

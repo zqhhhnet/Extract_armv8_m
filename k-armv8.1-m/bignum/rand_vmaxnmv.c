@@ -8,8 +8,8 @@ void main(){
     char integer2[41];
     char result_1[41];
     char result_2[41];
-    int d, n, m;
-    char label[4] = "F16";
+    int d, n, m, dt;
+    char label[2][4] = {"F16", "F32"};
     
     srand((unsigned)time( NULL ));
     printf("start:\n");
@@ -37,11 +37,13 @@ void main(){
     	}
     	
     	m = rand() % 8;
-    	if(n == m){
+    	if(d == m){
     		m++;
     		if(m == 8)
     			m = 0;
     	}
+    	
+    	dt = rand() % 2;
     	
     	for(int j = 0; j < 40; j++){
         	integer1[j] = rand() % 10 + 48;
@@ -82,7 +84,7 @@ void main(){
     	
     	printf("    MOV r%d, #%s\n", d, result_1);
     	printf("    VMOV q%d, #%s\n", m, result_2);
-    	printf("    VMAXNMV.%s r%d, q%d\n", label, d, m);
+    	printf("    VMAXNMV.%s r%d, q%d\n", label[dt], d, m);
     	
     	memset(integer1, 0, sizeof integer1);
     	memset(integer2, 0, sizeof integer2);

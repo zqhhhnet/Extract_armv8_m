@@ -4,7 +4,12 @@ module MOV
   imports ARMV8-CONFIGURATION
   
   rule <k> setDefaultRegs(MOV:Opcode) => . ...</k>
-       <regstate> RSMap:Map </regstate>
+       <regstate> 
+         RSMap:Map => updateMap(RSMap,
+           "RESULT" |-> mi(32, 0)
+         )
+       
+       </regstate>
   
   rule <k> execinstr(MOV:Opcode Rd:R32, Imm32:Imm, .Operands) => . ...</k>
        <regstate>
