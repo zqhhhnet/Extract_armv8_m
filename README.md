@@ -18,9 +18,9 @@
 
 ​	    测试案例:随机生成数据test, Benchmarks. COMMAND is the mnemonic of the instruction.
 
-​	    test：./scripts/run_COMMAND.sh       // output to file "~/single-Inst-test/COMMAND.test"
+​	    test：bash scripts/run_COMMAND.sh       // output to file "~/single-Inst-test/COMMAND.test"
 
-​	    Benchmark: ./scripts/COMMAND.sh     // output to file "single-Inst-test/COMMAND-bm.out"
+​	    Benchmark: bash scripts/COMMAND.sh     // output to file "single-Inst-test/COMMAND-bm.out"
 
 ***
 
