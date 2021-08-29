@@ -135,4 +135,15 @@ module ARMV8-ABSTRACT-SYNTAX
                | MinMIntOfInt(MInt, MInt, Int, Label, Map)	[function]
                | LeftAbsMinMIntOfInt(MInt, MInt, Int, Map)	[function]
   
+  /*@
+    get the multiply of MInt
+  */
+  syntax MInt ::= uMulofInt8(MInt, MInt)	[function]
+                | uMulofInt16(MInt, MInt)	[function]
+                | uMulofInt32(MInt, MInt)	[function]
+                | sMulofInt8(MInt, MInt)	[function]
+                | sMulofInt16(MInt, MInt)	[function]
+                | sMulofInt32(MInt, MInt)	[function]
+  
+  
 endmodule

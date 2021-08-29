@@ -51,6 +51,9 @@ module ARMV8-SYNTAX
                   | "VMINNMAV"	[token]
                   | "VMINV"		[token]
                   | "VMINAV"		[token]
+                  | "VMLAV"		[token]
+                  // VMLAVA is VMLAV{A} format
+                  | "VMLAVA"		[token]
   
   syntax Opcode ::= "end"
                   | "VMOV"		[token]
@@ -82,7 +85,8 @@ module ARMV8-SYNTAX
                  | "fpscr"
   
   syntax VirtualReg ::= "result"
-  
+  		       | "result64"
+
   syntax R32 ::= "r0"
                | "r1"
                | "r2"

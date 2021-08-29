@@ -7,6 +7,7 @@ module MOV
        <regstate> 
          RSMap:Map => updateMap(RSMap,
            "RESULT" |-> mi(32, 0)
+           "RESULT64" |-> mi(64, 0)
          )
        
        </regstate>

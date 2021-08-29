@@ -35,10 +35,10 @@ module ARMV8-MINT-SYNTAX
   syntax Floats ::= List{Float, ""} [klabel(floatlist)]
   syntax Ints ::= List{Int, ""} [klabel(intlist)]
   
-  syntax MInt ::= "ifMInt" Bool "then" MInt "else" MInt [function]
-  syntax Bool ::= "ifBool" Bool "then" Bool "else" Bool [function]
-  syntax Int ::= "ifInt" Bool "then" Int "else" Int [function]
-  syntax MInts ::= "ifMInts" Bool "then" MInts "else" MInts [function]
+  syntax MInt ::= "ifMInt" Bool "then" MInt "else" MInt [function, smtlib(ite)]
+  syntax Bool ::= "ifBool" Bool "then" Bool "else" Bool [function, smtlib(ite)]
+  syntax Int ::= "ifInt" Bool "then" Int "else" Int [function, smtlib(ite)]
+  syntax MInts ::= "ifMInts" Bool "then" MInts "else" MInts [function, smtlib(ite)]
   
   // Convert MInts to Signed Ints
   syntax Ints ::= convertMIntsToSInts(MInts) [function]

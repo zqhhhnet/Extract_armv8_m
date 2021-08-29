@@ -99,8 +99,10 @@ module ARMV8-CONFIGURATION
       ("S29"		|-> mi(32, 0))
       ("S30"		|-> mi(32, 0))
       ("S31"		|-> mi(32, 0))
-      // virtual regsiter "RESULT", default 32bit 0
+      // virtual "RESULT", default 32bit 0
       ("RESULT"	|-> mi(32, 0))
+      // virtual "RESULT64", default 64bit 0
+      ("RESULT64"	|-> mi(64, 0))
       // set default value to regsiters
       ("CONTROL"	|-> mi(32, 0))
       ("CONTROL_S"	|-> mi(32, 0))

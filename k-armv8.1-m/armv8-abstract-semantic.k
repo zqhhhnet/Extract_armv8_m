@@ -95,6 +95,7 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule convToRegKeysHelper(s31)  => "S31"
   
   rule convToRegKeysHelper(result) => "RESULT"
+  rule convToRegKeysHelper(result64) => "RESULT64"
   
   /*
   rule convToRegKeysHelper(control)  => "CONTROL"
@@ -120,6 +121,7 @@ module ARMV8-ABSTRACT-SEMANTIC
   */
   
   rule convSubRegsToRegs(result) => result
+  rule convSubRegsToRegs(result64) => result64
   
   rule convSubRegsToRegs(d0)  => d0
   rule convSubRegsToRegs(d1)  => d1
@@ -310,7 +312,8 @@ module ARMV8-ABSTRACT-SEMANTIC
   rule getRegisterValue(R:R32,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
   rule getRegisterValue(R:S32, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
   // rule getRegisterValue(R:MRegs, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
-  rule getRegisterValue(R:VirtualReg, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
+  rule getRegisterValue(R:VirtualReg, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)  requires (R ==K result)
+  rule getRegisterValue(R:VirtualReg, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 64, 0)  requires (R ==K result64)
   
   rule getRegisterValue(R:D64, RSMap) => extractMask({RSMap[convToRegKeys(R)]}:>MInt, 128, 0)
   
@@ -463,5 +466,20 @@ module ARMV8-ABSTRACT-SEMANTIC
   
   rule LeftAbsMinMIntOfInt(MI1:MInt, MI2:MInt, I:Int, RSMap:Map) => ( ifMInt (absInt(svalueMInt(MI1)) >=Int uvalueMInt(MI2)) then (MI2) else (mi(I, absInt(svalueMInt(MI1)))) )
     requires (bitwidthMInt(MI1) ==Int I) andBool (bitwidthMInt(MI2) ==Int I)
+  
+  /*@
+    get the multiply of MInt
+  */
+  rule uMulofInt8(MI1:MInt, MI2:MInt) => mi(64, ( (uvalueMInt(extractMInt(MI1, 24, 32)) *Int uvalueMInt(extractMInt(MI2, 24, 32))) +Int (uvalueMInt(extractMInt(MI1, 16, 24)) *Int uvalueMInt(extractMInt(MI2, 16, 24))) +Int (uvalueMInt(extractMInt(MI1, 8, 16)) *Int uvalueMInt(extractMInt(MI2, 8, 16))) +Int (uvalueMInt(extractMInt(MI1, 0, 8)) *Int uvalueMInt(extractMInt(MI2, 0, 8))) ) )
+  
+  rule uMulofInt16(MI1:MInt, MI2:MInt) => mi(64, ( (uvalueMInt(extractMInt(MI1, 0, 16)) *Int uvalueMInt(extractMInt(MI2, 0, 16))) +Int (uvalueMInt(extractMInt(MI1, 16, 32)) *Int uvalueMInt(extractMInt(MI2, 16, 32))) ) )
+  
+  rule uMulofInt32(MI1:MInt, MI2:MInt) => mi(64, ( (uvalueMInt(extractMInt(MI1, 0, 32)) *Int uvalueMInt(extractMInt(MI2, 0, 32))) ) )
+  
+  rule sMulofInt8(MI1:MInt, MI2:MInt) => mi(64, ( (svalueMInt(extractMInt(MI1, 24, 32)) *Int svalueMInt(extractMInt(MI2, 24, 32))) +Int (svalueMInt(extractMInt(MI1, 16, 24)) *Int svalueMInt(extractMInt(MI2, 16, 24))) +Int (svalueMInt(extractMInt(MI1, 8, 16)) *Int svalueMInt(extractMInt(MI2, 8, 16))) +Int (svalueMInt(extractMInt(MI1, 0, 8)) *Int svalueMInt(extractMInt(MI2, 0, 8))) ) )
+  
+  rule sMulofInt16(MI1:MInt, MI2:MInt) => mi(64, ( (svalueMInt(extractMInt(MI1, 0, 16)) *Int svalueMInt(extractMInt(MI2, 0, 16))) +Int (svalueMInt(extractMInt(MI1, 16, 32)) *Int svalueMInt(extractMInt(MI2, 16, 32))) ) )
+  
+  rule sMulofInt32(MI1:MInt, MI2:MInt) => mi(64, ( (svalueMInt(extractMInt(MI1, 0, 32)) *Int svalueMInt(extractMInt(MI2, 0, 32))) ) )
   
 endmodule
