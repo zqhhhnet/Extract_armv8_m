@@ -5,20 +5,23 @@ K_DIR=$THIS_DIR/../k-armv8.1-m/
 
 cd $K_DIR
 
-touch single-Inst-test/vmaxv.test
-touch single-Inst-test/vmaxv-test.out
 gcc bignum/rand_vmaxv.c -o bignum/rand_vmaxv
+for i in $(seq 1 30)
+do
+touch single-Inst-test/vmaxv/vmaxv-$i.test
+touch single-Inst-test/vmaxv/vmaxv-test-$i.out
 
-# output to the test case
-./bignum/rand_vmaxv > single-Inst-test/vmaxv.test
+
+# output the test case to "test.s"
+./bignum/rand_vmaxv > single-Inst-test/vmaxv/vmaxv-$i.test
 
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
 
-# run the test case and output
-krun single-Inst-test/vmaxv.test --output-file "single-Inst-test/vmaxv-test.out"
+# run the test case "test.s" and output to the "test.out"
+krun single-Inst-test/vmaxv/vmaxv-$i.test --output-file "single-Inst-test/vmaxv/vmaxv-test-$i.out"
 
 endtime=`date +'%Y-%m-%d %H:%M:%S'`
 start_seconds=$(date --date="$starttime" +%s);
 end_seconds=$(date --date="$endtime" +%s);
 echo "本次运行时间： "$((end_seconds-start_seconds))"s"
-
+done

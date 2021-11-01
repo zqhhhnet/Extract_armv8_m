@@ -26,6 +26,7 @@ module ARMV8-CONFIGURATION
     <regstate> 
       //.Map
       // Qn for check
+      
       ("Q0"		|-> mi(128, 0))
       ("Q1"		|-> mi(128, 0))
       ("Q2"		|-> mi(128, 0))
@@ -34,7 +35,9 @@ module ARMV8-CONFIGURATION
       ("Q5"		|-> mi(128, 0))
       ("Q6"		|-> mi(128, 0))
       ("Q7"		|-> mi(128, 0))
-      // Dn for check
+      
+      // Dn for check 
+      
       ("D0"		|-> mi(64, 0))
       ("D1"		|-> mi(64, 0))
       ("D2"		|-> mi(64, 0))
@@ -51,6 +54,7 @@ module ARMV8-CONFIGURATION
       ("D13"		|-> mi(64, 0))
       ("D14"		|-> mi(64, 0))
       ("D15"		|-> mi(64, 0))
+      
       ("R0"		|-> mi(32, 0))
       ("R1"		|-> mi(32, 0))
       ("R2"		|-> mi(32, 0))
@@ -100,6 +104,7 @@ module ARMV8-CONFIGURATION
       ("S30"		|-> mi(32, 0))
       ("S31"		|-> mi(32, 0))
       // virtual "RESULT", default 32bit 0
+      
       ("RESULT"	|-> mi(32, 0))
       // virtual "RESULT64", default 64bit 0
       ("RESULT64"	|-> mi(64, 0))

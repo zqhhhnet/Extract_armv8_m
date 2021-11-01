@@ -58,6 +58,8 @@ module ARMV8-SYNTAX
   syntax Opcode ::= "end"
                   | "VMOV"		[token]
                   | "MOV"		[token]
+                  | "ADD"		[token] //for test
+                  | "MAX"		[token]
                  
   syntax Register ::= R32
                     | Q128
@@ -112,6 +114,9 @@ module ARMV8-SYNTAX
                 | "q5"
                 | "q6"
                 | "q7"
+                
+  syntax Idx ::= Int
+  syntax Q128 ::= Q128 "[" Idx "]"
   
   syntax S32 ::= "s0"
                | "s1"
@@ -180,6 +185,10 @@ module ARMV8-SYNTAX
                  | "F32"
                  | "F64"
                  
+  // for store to vector lane.
+  syntax NLabel ::= "$" Int
+  
+                 
   syntax Start ::= "start" [token]
   syntax Beginp ::= Start ":"
   
@@ -191,7 +200,7 @@ module ARMV8-SYNTAX
   syntax Instruction ::= Opcode "." Label Operands
                        | Opcode Operands
                        | Beginp
-                       
+                       | Opcode "." NLabel Operands
   
   syntax Instructions ::= List{Instruction, ""} [klabel(instructionlist)]
   

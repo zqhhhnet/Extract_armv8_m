@@ -6,7 +6,11 @@ module ARMV8-ABSTRACT-SYNTAX
   imports STRING
   imports ARMV8-SYNTAX-SORTS
   
-  syntax CodeInMemory ::= code(/*MInt -> storeInstr(Instruction)*/ Map)
+  syntax Ptm ::= memloc(MInt)
+  syntax MInt ::= Ptm
+ 
+  
+  syntax CodeInMemory ::= code(/*Memloc -> storeInstr(Instruction)*/ Map)
   
   syntax AbsCommand ::= storedInstr(Instruction)
   syntax AbsCommand ::= execinstrBeat(Instruction, Int)

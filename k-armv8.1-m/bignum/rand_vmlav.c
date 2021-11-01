@@ -27,7 +27,8 @@ void main(){
     	result_2[i] = '\0';
     }
     
-    for(int i = 0; i < 30; i++){
+    // change to 1 command
+    //for(int i = 0; i < 30; i++){
     	d = rand() % 13;
     	if(d % 2 != 0){
     	    d++;
@@ -93,7 +94,7 @@ void main(){
     	memset(integer2, 0, sizeof integer2);
     	memset(result_1, '\0', sizeof result_1);
     	memset(result_2, '\0', sizeof result_2);
-    }
+    //}
     
     printf("end\n");
     

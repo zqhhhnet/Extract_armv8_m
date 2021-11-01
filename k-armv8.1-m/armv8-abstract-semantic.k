@@ -482,4 +482,6 @@ module ARMV8-ABSTRACT-SEMANTIC
   
   rule sMulofInt32(MI1:MInt, MI2:MInt) => mi(64, ( (svalueMInt(extractMInt(MI1, 0, 32)) *Int svalueMInt(extractMInt(MI2, 0, 32))) ) )
   
+
+  
 endmodule
