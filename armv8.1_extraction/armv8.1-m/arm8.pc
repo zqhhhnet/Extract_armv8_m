@@ -1,0 +1,188 @@
+C2.4.369 VMAX, VMAXA
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   result = Zeros(32);
+           7   op1    = Q[n, curBeat];
+           8   op2    = Q[m, curBeat];
+           9   for e = 0 to elements-1
+          10       value1 = Int(Elem[op1, e, esize], unsigned || absolute);
+          11       value2 = Int(Elem[op2, e, esize], unsigned);
+          12       if absolute then
+          13           value2 = Abs(value2);
+          14       Elem[result, e, esize] = Max(value1, value2)[esize-1:0];
+          15
+          16   for e = 0 to 3
+          17       if elmtMask()[e] == '1' then
+          18           Elem[Q[d, curBeat], e, 8] = Elem[result, e, 8];
+C2.4.370 VMAXNM
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3   case size of
+           4       when '01'
+           5           if maximum then
+           6                S[d] = Zeros(16) : FPMaxNum(S[n][15:0], S[m][15:0], TRUE);
+           7           else
+           8                S[d] = Zeros(16) : FPMinNum(S[n][15:0], S[m][15:0], TRUE);
+           9       when '10'
+          10           if maximum then
+          11                S[d] = FPMaxNum(S[n], S[m], TRUE);
+          12           else
+          13                S[d] = FPMinNum(S[n], S[m], TRUE);
+          14       when '11'
+          15           if maximum then
+          16                D[d] = FPMaxNum(D[n], D[m], TRUE);
+          17           else
+          18                D[d] = FPMinNum(D[n], D[m], TRUE);
+C2.4.371 VMAXNM, VMAXNMA (floating-point)
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   result = Zeros(32);
+           7   op1    = Q[n, curBeat];
+           8   op2    = Q[m, curBeat];
+           9   for e = 0 to elements-1
+          10       // Avoid Floating-point exceptions on a predicated lane by checking the element mask
+          11       predicated = (elmtMask()[e*(esize>>3)] == '0');
+          12       value1     = Elem[op1, e, esize];
+          13       value2     = Elem[op2, e, esize];
+          14       if absolute then
+          15           value1 = FPAbs(value1);
+          16           value2 = FPAbs(value2);
+          17       Elem[result, e, esize] = FPMaxNum(value1, value2, FALSE, predicated);
+          18
+          19   for e = 0 to 3
+          20       if elmtMask()[e] == '1' then
+          21           Elem[Q[d, curBeat], e, 8] = Elem[result, e, 8];
+C2.4.372 VMAXNMV, VMAXNMAV (floating-point)
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   op1    = Q[m, curBeat];
+           7   result = Elem[R[da], 0, esize];
+           8   for e = 0 to elements-1
+           9       if elmtMask()[e*(esize>>3)] == '1' then
+          10           value = Elem[op1, e, esize];
+          11           result = FPConvertNaN(result, FALSE);
+          12           value = FPConvertNaN(value, FALSE);
+          13           if absolute then
+          14               value = FPAbs(value);
+          15           result = FPMaxNum(value, result, FALSE);
+          16
+          17   R[da] = ZeroExtend(result);
+C2.4.373 VMAXV, VMAXAV
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   op1    = Q[m, curBeat];
+           7   result = Int(Elem[R[da], 0, esize], absolute || unsigned);
+           8   for e = 0 to elements-1
+           9       if elmtMask()[e*(esize>>3)] == '1' then
+          10           value = Int(Elem[op1, e, esize], unsigned);
+          11           if absolute then
+          12               value = Abs(value);
+          13           result = Max(value, result);
+          14
+          15   R[da] = result[31:0];
+C2.4.374 VMIN, VMINA
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   result = Zeros(32);
+           7   op1    = Q[n, curBeat];
+           8   op2    = Q[m, curBeat];
+           9   for e = 0 to elements-1
+          10       value1 = Int(Elem[op1, e, esize], unsigned || absolute);
+          11       value2 = Int(Elem[op2, e, esize], unsigned);
+          12       if absolute then
+          13           value2 = Abs(value2);
+          14       Elem[result, e, esize] = Min(value1, value2)[esize-1:0];
+          15
+          16   for e = 0 to 3
+          17       if elmtMask()[e] == '1' then
+          18           Elem[Q[d, curBeat], e, 8] = Elem[result, e, 8];
+C2.4.375 VMINNM
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3   case size of
+           4       when '01'
+           5           if maximum then
+           6                S[d] = Zeros(16) : FPMaxNum(S[n][15:0], S[m][15:0], TRUE);
+           7           else
+           8                S[d] = Zeros(16) : FPMinNum(S[n][15:0], S[m][15:0], TRUE);
+           9       when '10'
+          10           if maximum then
+          11                S[d] = FPMaxNum(S[n], S[m], TRUE);
+          12           else
+          13                S[d] = FPMinNum(S[n], S[m], TRUE);
+          14       when '11'
+          15           if maximum then
+          16                D[d] = FPMaxNum(D[n], D[m], TRUE);
+          17           else
+          18                D[d] = FPMinNum(D[n], D[m], TRUE);
+C2.4.376 VMINNM, VMINNMA (floating-point)
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   result = Zeros(32);
+           7   op1    = Q[n, curBeat];
+           8   op2    = Q[m, curBeat];
+           9   for e = 0 to elements-1
+          10       // Avoid Floating-point exceptions on a predicated lane by checking the element mask
+          11       predicated = (elmtMask()[e*(esize>>3)] == '0');
+          12       value1     = Elem[op1, e, esize];
+          13       value2     = Elem[op2, e, esize];
+          14       if absolute then
+          15           value1 = FPAbs(value1);
+          16           value2 = FPAbs(value2);
+          17       Elem[result, e, esize] = FPMinNum(value1, value2, FALSE, predicated);
+          18
+          19   for e = 0 to 3
+          20       if elmtMask()[e] == '1' then
+          21           Elem[Q[d, curBeat], e, 8] = Elem[result, e, 8];
+C2.4.377 VMINNMV, VMINNMAV (floating-point)
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   op1    = Q[m, curBeat];
+           7   result = Elem[R[da], 0, esize];
+           8   for e = 0 to elements-1
+           9       if elmtMask()[e*(esize>>3)] == '1' then
+          10           value = Elem[op1, e, esize];
+          11           result = FPConvertNaN(result, FALSE);
+          12           value = FPConvertNaN(value, FALSE);
+          13           if absolute then
+          14               value = FPAbs(value);
+          15           result = FPMinNum(value, result, FALSE);
+          16
+          17   R[da] = ZeroExtend(result);
+C2.4.378 VMINV, VMINAV
+           1   EncodingSpecificOperations();
+           2   ExecuteFPCheck();
+           3
+           4   (curBeat, elmtMask()) = GetCurInstrBeat();
+           5
+           6   op1    = Q[m, curBeat];
+           7   result = Int(Elem[R[da], 0, esize], absolute || unsigned);
+           8   for e = 0 to elements-1
+           9       if elmtMask()[e*(esize>>3)] == '1' then
+          10           value = Int(Elem[op1, e, esize], unsigned);
+          11           if absolute then
+          12               value = Abs(value);
+          13           result = Min(value, result);
+          14
+          15   R[da] = result[31:0];

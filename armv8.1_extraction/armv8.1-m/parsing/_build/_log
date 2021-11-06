@@ -1,0 +1,39 @@
+### Starting build.
+# Target: parsesyntax.ml.depends, tags: { extension:ml, file:parsesyntax.ml, ocaml, ocamldep, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamldep.opt -pp camlp4o -modules parsesyntax.ml > parsesyntax.ml.depends
+# Target: librap.ml.depends, tags: { extension:ml, file:librap.ml, ocaml, ocamldep, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamldep.opt -pp camlp4o -modules librap.ml > librap.ml.depends # cached
+# Target: lightheadertype.ml.depends, tags: { extension:ml, file:lightheadertype.ml, ocaml, ocamldep, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamldep.opt -pp camlp4o -modules lightheadertype.ml > lightheadertype.ml.depends # cached
+# Target: lightheadertype.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:lightheadertype.cmo, file:lightheadertype.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -pp camlp4o -o lightheadertype.cmo lightheadertype.ml # cached
+# Target: librap.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:librap.cmo, file:librap.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -pp camlp4o -o librap.cmo librap.ml # cached
+# Target: syntaxtype.ml.depends, tags: { extension:ml, file:syntaxtype.ml, ocaml, ocamldep, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamldep.opt -pp camlp4o -modules syntaxtype.ml > syntaxtype.ml.depends
+# Target: syntaxtype.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:syntaxtype.cmo, file:syntaxtype.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -pp camlp4o -o syntaxtype.cmo syntaxtype.ml
+# Target: parsesyntax.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:parsesyntax.cmo, file:parsesyntax.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -pp camlp4o -o parsesyntax.cmo parsesyntax.ml
+# Target: parsesyntax.d.cmo, tags: { byte, compile, debug, extension:cmo, extension:ml, file:parsesyntax.d.cmo, file:parsesyntax.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -g -pp camlp4o -o parsesyntax.d.cmo parsesyntax.ml
+# Target: librap.d.cmo, tags: { byte, compile, debug, extension:cmo, extension:ml, file:librap.d.cmo, file:librap.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -g -pp camlp4o -o librap.d.cmo librap.ml # cached
+# Target: syntaxtype.d.cmo, tags: { byte, compile, debug, extension:cmo, extension:ml, file:syntaxtype.d.cmo, file:syntaxtype.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -g -pp camlp4o -o syntaxtype.d.cmo syntaxtype.ml
+# Target: lightheadertype.d.cmo, tags: { byte, compile, debug, extension:cmo, extension:ml, file:lightheadertype.d.cmo, file:lightheadertype.ml, implem, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -c -g -pp camlp4o -o lightheadertype.d.cmo lightheadertype.ml # cached
+# Target: parsesyntax.d.byte, tags: { byte, debug, dont_link_with, extension:byte, file:parsesyntax.d.byte, link, ocaml, program, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlc.opt -g lightheadertype.d.cmo librap.d.cmo syntaxtype.d.cmo parsesyntax.d.cmo -o parsesyntax.d.byte
+# Target: lightheadertype.cmx, tags: { compile, extension:cmx, extension:ml, file:lightheadertype.cmx, file:lightheadertype.ml, implem, native, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlopt.opt -c -pp camlp4o -o lightheadertype.cmx lightheadertype.ml # cached
+# Target: librap.cmx, tags: { compile, extension:cmx, extension:ml, file:librap.cmx, file:librap.ml, implem, native, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlopt.opt -c -pp camlp4o -o librap.cmx librap.ml # cached
+# Target: syntaxtype.cmx, tags: { compile, extension:cmx, extension:ml, file:syntaxtype.cmx, file:syntaxtype.ml, implem, native, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlopt.opt -c -pp camlp4o -o syntaxtype.cmx syntaxtype.ml
+# Target: parsesyntax.cmx, tags: { compile, extension:cmx, extension:ml, file:parsesyntax.cmx, file:parsesyntax.ml, implem, native, ocaml, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlopt.opt -c -pp camlp4o -o parsesyntax.cmx parsesyntax.ml
+# Target: parsesyntax.native, tags: { dont_link_with, extension:native, file:parsesyntax.native, link, native, ocaml, program, quiet, traverse }
+/home/hhh1/.opam/ocaml-variants/bin/ocamlopt.opt lightheadertype.cmx librap.cmx syntaxtype.cmx parsesyntax.cmx -o parsesyntax.native
+# No parallelism done
+# Compilation successful.
