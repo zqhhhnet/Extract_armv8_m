@@ -122,17 +122,19 @@ module ARMV8-ABSTRACT-SYNTAX
   syntax Int ::= getRegisterSize(Register) [function]
   
   /*@
-    get the maximum MInt of Float
+    get the maximum MInt of 2 Float
   */
   syntax MInt ::= AbsMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | MaxMIntOfFP(MInt, MInt, Int, Map)		[function]
+                | AbsMinMIntOfFP(MInt, MInt, Int, Map)  [function]
+                | MinMIntOfFP(MInt, MInt, Int, Map)   [function]
                 | LeftAbsMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | LeftAbsMinMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | LeftMaxMIntOfFP(MInt, MInt, Int, Map)	[function]
                 | LeftMinMIntOfFP(MInt, MInt, Int, Map)	[function]
   
   /*@
-    get the maximun MInt of Int
+    get the maximun MInt of 2 Int
   */
   syntax MInt ::= MaxMIntOfInt(MInt, MInt, Int, Label, Map)		[function]
                | LeftAbsMaxMIntOfInt(MInt, MInt, Int, Map)	[function]	// for R and Q

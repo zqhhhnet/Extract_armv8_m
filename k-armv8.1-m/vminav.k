@@ -43,7 +43,7 @@ module VMINAV
        ...</k>
        <regstate>
          RSMap:Map => updateMap(RSMap,
-           convToRegKeys(Rd) |-> getParentValue(result, RSMap)
+           convToRegKeys(Rd) |-> ifMInt (notBool IsUndef(getParentValue(result, RSMap))) then getParentValue(result, RSMap) else undefMInt32
          )
          
        </regstate>

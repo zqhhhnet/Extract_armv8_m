@@ -36,8 +36,8 @@ module VMAXNMAV
          RSMap:Map => updateMap(RSMap,
            "RESULT" |-> (ifMInt (((((((eqMInt(extractMInt(getReg("CONTROL", RSMap), 31, 32), mi(1,1)) andBool (eqMInt(extractMInt(getReg("CPACR", RSMap), 10, 12), mi(2,3)) andBool (eqMInt(extractMInt(getReg("NSACR", RSMap), 21, 22), mi(1,1))))) andBool eqMInt(extractMInt(getReg("CPPWR", RSMap), 11, 12), mi(1,0))) andBool neMInt(extractMInt(getReg("MVFR1", RSMap), 20, 24), mi(4,0))) andBool (eqMInt(extractMInt(getReg("EPSR", RSMap), 5, 7), mi(2,0)) andBool eqMInt(extractMInt(getReg("EPSR", RSMap), 16, 22), mi(6,2)))) andBool (eqMInt(extractMInt(getReg("FPCCR", RSMap), 31, 32), mi(1,0)) andBool eqMInt(extractMInt(getReg("FPCCR", RSMap), 0, 1), mi(1,1)))) andBool eqMInt(extractMInt(getReg("CONTROL", RSMap), 29, 30), mi(1,0))) andBool eqMInt(extractMInt(getReg("VPR", RSMap), 20, 21), mi(1,1)) ) then ( ifMInt (S ==K F16) then (concatenateMInt( mi(16, 0), LeftAbsMaxMIntOfFP(extractMInt(getVecParentValue(Qm, I, RSMap), 0, 16), LeftAbsMaxMIntOfFP(extractMInt(getVecParentValue(Qm, I, RSMap), 16, 32), extractMInt(getParentValue(Rd, RSMap), 16, 32), 16, RSMap), 16, RSMap) ) ) 
              else (ifMInt (S ==K F32) then (LeftAbsMaxMIntOfFP(extractMInt(getVecParentValue(Qm, I, RSMap), 0, 32), extractMInt(getParentValue(Rd, RSMap), 0, 32), 32, RSMap))
-             else (mi(32, -1)) ) )
-             else (mi(32, -1))
+             else (undefMInt32) ) )
+             else (undefMInt32)
              )
            
            "FPSCR" |-> ( ifMInt (S ==K F32) then ( ifMInt (((uvalueMInt(extractMInt(getParentValue(Rd, RSMap), 1, 9)) ==Int MaxExponentBits(8)) andBool ((neMInt(extractMInt(getParentValue(Rd, RSMap), 9, 32), mi(23, 0))) andBool eqMInt(extractMInt(getParentValue(Rd, RSMap), 9, 10), mi(1,0)))) orBool ((uvalueMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 1, 9)) ==Int MaxExponentBits(8)) andBool ((neMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 9, 32), mi(23, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 9, 10), mi(1,0)))) ) then (mi(32, 50331649)) else (mi(32, 50331648)) ) else ( ifMInt (S ==K F16) then ( ifMInt (((((uvalueMInt(extractMInt(getParentValue(Rd, RSMap), 17, 22)) ==Int MaxExponentBits(5)) andBool ((neMInt(extractMInt(getParentValue(Rd, RSMap), 22, 32), mi(10, 0))) andBool eqMInt(extractMInt(getParentValue(Rd, RSMap), 22, 23), mi(1,0)))) orBool ((uvalueMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 1, 6)) ==Int MaxExponentBits(5)) andBool ((neMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 6, 16), mi(10, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 6, 7), mi(1,0))))) andBool (eqMInt(extractMInt(getReg("FPSCR", RSMap), 5, 6), mi(1,0))) ) orBool (((uvalueMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 17, 22)) ==Int MaxExponentBits(5)) andBool ((neMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 22, 32), mi(10, 0))) andBool eqMInt(extractMInt(getVecParentValue(Qm, I, RSMap), 22, 23), mi(1,0)))) andBool (eqMInt(extractMInt(getReg("FPSCR", RSMap), 5, 6), mi(1,0))) ) ) then (mi(32, 50331649)) else (mi(32, 50331648)) ) else (mi(32, 50331648)) ) )
@@ -48,7 +48,7 @@ module VMAXNMAV
        ...</k>
        <regstate>
          RSMap:Map => updateMap(RSMap,
-           convToRegKeys(Rd) |-> (getParentValue(result, RSMap))
+           convToRegKeys(Rd) |-> ifMInt (notBool IsUndef(getParentValue(result, RSMap))) then (getParentValue(result, RSMap)) else undefMInt32
            
          )
        </regstate>
