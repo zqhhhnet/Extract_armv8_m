@@ -1,0 +1,13 @@
+<T>
+  <k>
+    ready
+  </k>
+  <a>
+    ListItem ( x )
+    ListItem ( y )
+  </a>
+  <b>
+    ListItem ( x )
+    ListItem ( z )
+  </b>
+</T>

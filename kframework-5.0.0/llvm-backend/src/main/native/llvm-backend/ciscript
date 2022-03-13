@@ -1,0 +1,34 @@
+#!/bin/bash -ex
+export PATH=$HOME/.cargo/bin:$HOME/.local/bin:$PATH
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH="/usr/local/opt/flex/bin:/usr/local/opt/llvm@6/bin:$PATH"
+    export LDFLAGS="-L/usr/local/opt/llvm@6/lib -L/usr/local/opt/flex/lib"
+    export CPPFLAGS="-I/usr/local/opt/llvm@6/include -I/usr/local/opt/flex/include"
+    export FLEX_EXECUTABLE="/usr/local/opt/flex/bin/flex"
+fi
+
+rm -rf build
+mkdir -p build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=$1 -DCMAKE_INSTALL_PREFIX=install
+make -j`nproc`
+make run-unittests
+cd ../matching
+mvn verify -U
+cd ../build
+
+export PATH="`pwd`/install/bin:`pwd`/bin:$PATH"
+make install
+
+cp ../test/Makefile ./TestMakefile
+
+make -f TestMakefile -j`nproc`
+
+diff io_output1.txt ../test/ioTest1.output
+diff `ls | grep io_log` ../test/ioTest3.output
+rm `ls | grep io_log`
+
+make -f TestMakefile clean
+
+rm -f configparser configparser.ll

@@ -1,0 +1,12 @@
+<T>
+  <k>
+    ready
+  </k>
+  <a>
+    .List
+  </a>
+  <b>
+    ListItem ( x )
+    ListItem ( z )
+  </b>
+</T>
