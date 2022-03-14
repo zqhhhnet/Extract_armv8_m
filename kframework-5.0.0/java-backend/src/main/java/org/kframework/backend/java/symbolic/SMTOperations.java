@@ -95,9 +95,11 @@ public class SMTOperations {
                 try {
                     query = KILtoSMTLib.translateImplication(left, right, existentialQuantVars).toString();
                     //modified by hhh
+                    /*
                     System.out.println("SMT query  @@@@@\n");
                     System.out.println(query);
                     System.out.println("SMT query  #####\n");
+                    */
                 } finally {
                     left.globalContext().profiler.queryBuildTimer.stop();
                 }

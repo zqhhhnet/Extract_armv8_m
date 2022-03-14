@@ -67,6 +67,7 @@ public class Z3Wrapper {
         } else {
             // modified by hhh
             //System.out.println("isUnsat $$$$$$\n");
+            // this api is used for Z3
             return checkQueryWithExternalProcess(query, timeout, timer);
         }
     }
@@ -102,23 +103,14 @@ public class Z3Wrapper {
                     "-in",
                     "-smt2",
                     "-t:" + timeout);
-            //modified by hhh
-            /*
-            System.out.println("pb    dddddddddddd\n");
-            System.out.println("direct   " + pb.directory() + "\n");
-            //System.out.println("environment    " + pb.environment() + "\n");
-            System.out.println("pb    eeeeeeeeeeee\n");
-            */
             pb.redirectInput(ProcessBuilder.Redirect.PIPE);
             pb.redirectOutput(ProcessBuilder.Redirect.PIPE);
             profiler.startRun();
             Process z3Process = pb.start();
             //modified by hhh
-            /*
-            System.out.println("getOutputStream    dddddddddddd\n");
-            System.out.println("get   " + z3Process.getOutputStream() + "\n");
-            System.out.println("getOutputStream    eeeeeeeeeeee\n");
-            */
+            System.out.println("SMT query  @@@@@\n");
+            System.out.println(query);
+            System.out.println("SMT query  #####\n");
             PrintWriter input = new PrintWriter(z3Process.getOutputStream());
             input.format("%s%s%s\n", SMT_PRELUDE, query, CHECK_SAT);
             input.close();
