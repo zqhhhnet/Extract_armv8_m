@@ -22,8 +22,15 @@ require "vminnma.k"
 require "vminnmv.k"
 require "vminnmav.k"
 require "vmlav.k"
-//require "add-for-test.k"
-//require "max-for-test.k"
+require "add-for-test.k"
+require "max-for-test.k"
+
+// add for check
+require "sst.k"
+require "ext.k"
+require "dtc.k"
+require "cmp.k"
+require "sto.k"
 
 module ARMV8-SEMANTICS
   imports ARMV8-LOADER
@@ -50,6 +57,14 @@ module ARMV8-SEMANTICS
   imports VMINNMV
   imports VMINNMAV
   imports VMLAV
-  //imports ADD-FOR-TEST
-  //imports MAX-FOR-TEST
+  imports ADD-FOR-TEST
+  imports MAX-FOR-TEST
+  
+  //add for check
+  imports SST
+  imports EXT
+  imports DTC
+  imports CMP
+  imports STO
+  
 endmodule

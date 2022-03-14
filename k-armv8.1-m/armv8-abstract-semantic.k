@@ -390,6 +390,8 @@ module ARMV8-ABSTRACT-SEMANTIC
   
   rule getReg(RName, RSMap) => {RSMap[RName]}:>MInt
   
+  rule getRegI(RName, RSMap) => {RSMap[RName]}:>Int
+  
   /*@
     for the R and Q register fp command to get the minimum one
   */

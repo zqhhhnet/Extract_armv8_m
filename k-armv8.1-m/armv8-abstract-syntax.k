@@ -32,6 +32,8 @@ module ARMV8-ABSTRACT-SYNTAX
   
   syntax MInt ::= getReg(String, Map) [function]
   
+  syntax Int ::= getRegI(String, Map) [function]
+  
   syntax Beat ::= Int
   
   syntax KItem ::= "scan" [token]

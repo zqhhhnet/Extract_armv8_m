@@ -19,6 +19,7 @@ module ARMV8-SYNTAX-SORTS	// sorts of armv8.1-m
   syntax Builtin
   syntax Start
   syntax Beginp
+  syntax StepCommand
 endmodule
 
 module ARMV8-SYNTAX
@@ -203,5 +204,14 @@ module ARMV8-SYNTAX
                        | Opcode "." NLabel Operands
   
   syntax Instructions ::= List{Instruction, ""} [klabel(instructionlist)]
+  
+  // add for check
+  syntax StepCommand ::= "sst"		[token]
+                       | "ext"		[token]
+                       | "dtc"		[token]
+                       | "cmp"		[token]
+                       | "sto"		[token]
+  
+  syntax Opcode ::= StepCommand
   
 endmodule
