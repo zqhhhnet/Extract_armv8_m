@@ -8,7 +8,7 @@
 
 ​		1.安装KFramework的依赖，如该版本所需依赖： https://github.com/zqhhhnet/k
 
-​		2.完成1后，切换到Kframework-5.0.0中，输入以下命令即可完成KFramework的安装
+​		2.完成1后，切换到kframework-5.0.0中，输入以下命令即可完成KFramework的安装
 
 ​			`mvn package -DskipTests`
 
@@ -16,19 +16,19 @@
 
 ​			`~/Kframework-5.0.0/k-distribution/bin`
 
-​		4.卸载：若更改源代码后，需要重新编译，则在Kframework-5.0.0文档中，输入以下命令清空之前的编译，之后再执行2中的命令重新编译即可：
+​		4.卸载：若更改源代码后，需要重新编译，则在kframework-5.0.0文档中，输入以下命令清空之前的编译，之后再执行2中的命令重新编译即可：
 
 ​			`mvn clean`
 
 ---
 
-#### Branch: test
+#### Branch: parseCode
 
-​	运用kprove工具验证需要运用test分支。
+​	运用kprove工具验证需要运用parseCode分支。
 
-​	test分支是关于调用kprove验证指令的代码，用法如下：
+​	parseCode分支是关于调用kprove验证指令的代码，用法如下：
 
-​		1.当完成上述Framework工具的安装后，切换到test分支中的文档，并执行如下编译命令：
+​		1.当完成上述K Framework工具的安装后，切换到parseCode分支中的k-armv8.1-m文档，并执行如下编译命令：
 
 ​			`kompile armv8-semantics.k --backend java`
 
