@@ -24,6 +24,8 @@ require "vminnmav.k"
 require "vmlav.k"
 //require "add-for-test.k"
 //require "max-for-test.k"
+require "armv8-memory.k"
+require "armv8-meminit.k"
 
 module ARMV8-SEMANTICS
   imports ARMV8-LOADER
@@ -52,4 +54,6 @@ module ARMV8-SEMANTICS
   imports VMLAV
   //imports ADD-FOR-TEST
   //imports MAX-FOR-TEST
+  imports ARMV8-MEMORY
+  imports ARMV8-MEMINIT
 endmodule

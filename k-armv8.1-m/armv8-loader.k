@@ -12,18 +12,18 @@ module ARMV8-LOADER
   rule I:Instruction Is:Instructions => I ~> Is
   
   rule <k> OP:Opcode . S:Label OPR:Operands => . ...</k>
-       <instructiontext> code(M:Map => M[memloc(L) <- storedInstr(OP.S OPR)]) </instructiontext>
+       <instructiontext> code(M:Map => M[pointer(memLoc(-1,0,0,0,0), L:MInt) <- storedInstr(OP.S OPR)]) </instructiontext>
        <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
        requires notBool (OP ==K end)
        
   rule <k> OP:Opcode . S:NLabel OPR:Operands => . ...</k>
-       <instructiontext> code(M:Map => M[memloc(L) <- storedInstr(OP.S OPR)]) </instructiontext>
+       <instructiontext> code(M:Map => M[pointer(memLoc(-1,0,0,0,0), L:MInt) <- storedInstr(OP.S OPR)]) </instructiontext>
        <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
        requires notBool (OP ==K end)
   
   
   rule <k> OP:Opcode OPR:Operands => . ...</k>
-       <instructiontext> code(M:Map => M[memloc(L) <- storedInstr(OP OPR)]) </instructiontext>
+       <instructiontext> code(M:Map => M[pointer(memLoc(-1,0,0,0,0), L:MInt) <- storedInstr(OP OPR)]) </instructiontext>
        <nextloc> L:MInt => addMInt(L, mi(32, 1)) </nextloc>
        // requires (OP ==K end)
       
@@ -33,7 +33,7 @@ module ARMV8-LOADER
     set the begin point
   */
   rule <k> (start:Start:):Beginp => . ...</k>
-       <functarget> FMap:Map => FMap[start <- memloc(L)] </functarget>
+       <functarget> FMap:Map => FMap[start <- pointer(memLoc(-1,0,0,0,0), L)] </functarget>
        <nextloc> L </nextloc>
        
   
@@ -88,8 +88,8 @@ module ARMV8-LOADER
                    registersMessage ~>
                */
                    scan ...</k>
-       <instructiontext> code(memloc(L) |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
-       <regstate>... "R15" |-> (memloc(L:MInt) => memloc(addMInt(L, mi(32, 1)))) ...</regstate>
+       <instructiontext> code(pointer(L:MemLoc, MI:MInt) |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (pointer(L, MI) => pointer(L, addMInt(MI, mi(32, 1)))) ...</regstate>
          requires notBool (OP ==K end)
   
   /*@
@@ -110,8 +110,8 @@ module ARMV8-LOADER
                    registersMessage ~>
   		    
                    scan ...</k>
-       <instructiontext> code(memloc(L) |-> storedInstr(OP OPR) _:Map) </instructiontext>
-       <regstate>... "R15" |-> (memloc(L:MInt) => memloc(addMInt(L, mi(32, 1)))) ...</regstate>
+       <instructiontext> code(pointer(L:MemLoc, MI:MInt) |-> storedInstr(OP OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (pointer(L, MI) => pointer(L, addMInt(MI, mi(32, 1)))) ...</regstate>
          requires (OP ==K VMOV)
   
   // for vector lane, store the specific R to one element of Q.
@@ -119,8 +119,8 @@ module ARMV8-LOADER
                    execinstr(OP . S:NLabel OPR) ~>
                    registersMessage ~>
                    scan ...</k>
-       <instructiontext> code(memloc(L) |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
-       <regstate>... "R15" |-> (memloc(L:MInt) => memloc(addMInt(L, mi(32, 1)))) ...</regstate>
+       <instructiontext> code(pointer(L:MemLoc, MI:MInt) |-> storedInstr(OP . S OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (pointer(L, MI) => pointer(L, addMInt(MI, mi(32, 1)))) ...</regstate>
          requires (OP ==K VMOV)
      
   /*@
@@ -130,13 +130,13 @@ module ARMV8-LOADER
                    execinstr(OP OPR) ~>
                    registersMessage ~>
                    scan ...</k>
-       <instructiontext> code(memloc(L) |-> storedInstr(OP OPR) _:Map) </instructiontext>
-       <regstate>... "R15" |-> (memloc(L:MInt) => memloc(addMInt(L, mi(32, 1)))) ...</regstate>
+       <instructiontext> code(pointer(L:MemLoc, MI:MInt) |-> storedInstr(OP OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (pointer(L, MI) => pointer(L, addMInt(MI, mi(32, 1)))) ...</regstate>
          requires (OP ==K MOV) orBool (OP ==K ADD) orBool (OP ==K MAX)
   
   rule <k> scan => execinstr(OP OPR) ~> registersMessage ~> scan ...</k>
-       <instructiontext> code(memloc(L) |-> storedInstr(OP OPR) _:Map) </instructiontext>
-       <regstate>... "R15" |-> (memloc(L:MInt) => memloc(addMInt(L, mi(32, 1)))) ...</regstate>
+       <instructiontext> code(pointer(L:MemLoc, MI:MInt) |-> storedInstr(OP OPR) _:Map) </instructiontext>
+       <regstate>... "R15" |-> (pointer(L, MI) => pointer(L, addMInt(MI, mi(32, 1)))) ...</regstate>
          requires (OP ==K end)
   
   /*@
@@ -145,7 +145,7 @@ module ARMV8-LOADER
   rule <k> scan => . ...</k>
        <instructiontext> code(IMap) </instructiontext>
        <regstate> RSMap </regstate>
-         requires notBool {RSMap["R15"]}:>Ptm in_keys ( IMap )	// in_keys in stl
+         requires notBool {RSMap["R15"]}:>Ptm in_keys ( IMap )	
          
   rule <k> registersMessage => . ...</k>
        <regstateseq> ... .List => ListItem(RSMap) </regstateseq>

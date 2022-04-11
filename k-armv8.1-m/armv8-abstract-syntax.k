@@ -151,5 +151,10 @@ module ARMV8-ABSTRACT-SYNTAX
                 | sMulofInt16(MInt, MInt)	[function]
                 | sMulofInt32(MInt, MInt)	[function]
   
+  /*@
+    stack base info
+  */
+  syntax StackBaseInfo ::= stackBaseInfo(K, K)
+  
   
 endmodule

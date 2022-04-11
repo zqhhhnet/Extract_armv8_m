@@ -1,16 +1,21 @@
 require "armv8-syntax.k"
 require "armv8-abstract-syntax.k"
 require "armv8-mint.k"
+require "armv8-memory-syntax.k"
+require "armv8-meminit.k"
 
 module ARMV8-CONFIGURATION
   imports ARMV8-SYNTAX
   imports ARMV8-MINT-SYNTAX
   imports ARMV8-ABSTRACT-SYNTAX
   imports MINT
+  imports ARMV8-MEMINIT-SYNTAX
+  imports ARMV8-MEMORY-SYNTAX
+  imports MEMORY-CONFIGURATION
   
   configuration
     <k>
-      // initDefaultRegs ~>
+      initMemEnvirnoment(.List) ~>
       $PGM:Instructions ~>
       loadBegin ~>
       registersMessage ~>
@@ -21,7 +26,13 @@ module ARMV8-CONFIGURATION
     <currentstate> "text" </currentstate>
     <nextloc> mi(32, 0) </nextloc>
     <functarget> .Map </functarget>
-    <instructiontext> code(.Map) </instructiontext>
+    // sp address
+    <stackbase> stackBaseInfo(.K, .K) </stackbase>
+    // memory state
+    <memory>
+      <instructiontext> code(.Map) </instructiontext>
+      <memorystate/>
+    </memory>
     
     <regstate> 
       //.Map
@@ -80,6 +91,7 @@ module ARMV8-CONFIGURATION
       ("S6"		|-> mi(32, 0))
       ("S7"		|-> mi(32, 0))
       ("S8"		|-> mi(32, 0))
+      
       ("S9"		|-> mi(32, 0))
       ("S10"		|-> mi(32, 0))
       ("S11"		|-> mi(32, 0))
@@ -103,6 +115,7 @@ module ARMV8-CONFIGURATION
       ("S29"		|-> mi(32, 0))
       ("S30"		|-> mi(32, 0))
       ("S31"		|-> mi(32, 0))
+      
       // virtual "RESULT", default 32bit 0
       
       ("RESULT"	|-> mi(32, 0))
