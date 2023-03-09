@@ -32,6 +32,8 @@ module ARMV8-ABSTRACT-SYNTAX
   
   syntax MInt ::= getReg(String, Map) [function]
   
+  syntax Int ::= getRegI(String, Map) [function]
+  
   syntax Beat ::= Int
   
   syntax KItem ::= "scan" [token]
@@ -144,7 +146,7 @@ module ARMV8-ABSTRACT-SYNTAX
   /*@
     get the multiply of MInt
   */
-  syntax MInt ::= uMulofInt8(MInt, MInt)	[function]
+  syntax Int ::= uMulofInt8(MInt, MInt)	[function]
                 | uMulofInt16(MInt, MInt)	[function]
                 | uMulofInt32(MInt, MInt)	[function]
                 | sMulofInt8(MInt, MInt)	[function]

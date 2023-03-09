@@ -80,6 +80,7 @@ module ARMV8-CONFIGURATION
       ("S6"		|-> mi(32, 0))
       ("S7"		|-> mi(32, 0))
       ("S8"		|-> mi(32, 0))
+      
       ("S9"		|-> mi(32, 0))
       ("S10"		|-> mi(32, 0))
       ("S11"		|-> mi(32, 0))
@@ -103,6 +104,7 @@ module ARMV8-CONFIGURATION
       ("S29"		|-> mi(32, 0))
       ("S30"		|-> mi(32, 0))
       ("S31"		|-> mi(32, 0))
+      
       // virtual "RESULT", default 32bit 0
       
       ("RESULT"	|-> mi(32, 0))
@@ -125,7 +127,14 @@ module ARMV8-CONFIGURATION
       ("FPCCR_S"	|-> mi(32, 0))
       ("FPCCR_NS"	|-> mi(32, 0))
       ("VPR"		|-> mi(32, 0))
-      ("FPSCR"		|-> mi(32, 0))
+      //("FPSCR"		|-> mi(32, 0))
+      // for prove
+      ("FPSCR"    |-> mi(32, 50331648))
+      // add for check
+      ("TEMP1"		|-> mi(32, 0))
+      ("TEMP2"		|-> mi(32, 0))
+      ("V_TEMP1"	|-> 0)
+      ("V_TEMP2"	|-> 0)
       
     </regstate>
     

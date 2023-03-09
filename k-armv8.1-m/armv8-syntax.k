@@ -19,6 +19,9 @@ module ARMV8-SYNTAX-SORTS	// sorts of armv8.1-m
   syntax Builtin
   syntax Start
   syntax Beginp
+  syntax StepCommand
+  //syntax Lane
+  syntax Idx
 endmodule
 
 module ARMV8-SYNTAX
@@ -54,12 +57,28 @@ module ARMV8-SYNTAX
                   | "VMLAV"		[token]
                   // VMLAVA is VMLAV{A} format
                   | "VMLAVA"		[token]
+
   
   syntax Opcode ::= "end"
                   | "VMOV"		[token]
                   | "MOV"		[token]
                   | "ADD"		[token] //for test
                   | "MAX"		[token]
+                  // add for prove
+                  | "VADD"  [token]
+                  | "VMUL"  [token]
+                  | "VSUB"  [token]
+                  | "VSHR"  [token]
+                  | "VSHL"  [token]
+                  | "VORR"  [token]
+                  | "VAND"  [token]
+                  | "VQADD" [token]       // fpscr
+                  | "VDUP"  [token]
+                  | "VNEG"  [token]
+                  | "VMLA"  [token]       
+                  | "VRSHL" [token]
+                  | "VQRDMULH"  [token]   // fpscr
+
                  
   syntax Register ::= R32
                     | Q128
@@ -116,6 +135,8 @@ module ARMV8-SYNTAX
                 | "q7"
                 
   syntax Idx ::= Int
+  //syntax Lane ::= Q128 "[" Idx "]"
+  //syntax Q128 ::= Lane
   syntax Q128 ::= Q128 "[" Idx "]"
   
   syntax S32 ::= "s0"
@@ -184,6 +205,10 @@ module ARMV8-SYNTAX
                  | "F16"
                  | "F32"
                  | "F64"
+                 | "I8"
+                 | "I16"
+                 | "I32"
+                 | Int
                  
   // for store to vector lane.
   syntax NLabel ::= "$" Int
@@ -203,5 +228,19 @@ module ARMV8-SYNTAX
                        | Opcode "." NLabel Operands
   
   syntax Instructions ::= List{Instruction, ""} [klabel(instructionlist)]
+  
+  // add for check
+  syntax StepCommand ::= "sst"		[token]
+                       | "ext"		[token]
+                       | "dtc"		[token]
+                       | "cmp"		[token]
+                       | "sto"		[token]
+                       | "conca"  [token]
+                       | "sint"   [token]
+                       | "uint"   [token]
+                       | "maa"    [token]
+                       | "cmpAbs" [token]
+  
+  syntax Opcode ::= StepCommand
   
 endmodule

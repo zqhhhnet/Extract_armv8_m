@@ -1,0 +1,9 @@
+start:
+    MOV R0, #B
+    VDUP.32 Q1, R0
+end
+
+preCond:
+    0 <= B < 2^5
+    
+

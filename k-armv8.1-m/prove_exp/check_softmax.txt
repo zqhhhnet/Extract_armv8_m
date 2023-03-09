@@ -1,0 +1,37 @@
+start:
+  VMOV Q1, # A
+  MOV R0, # B
+  VMOV Q5, # C
+  VMOV Q6, # D
+  VQRDMULH.S32 Q0, Q1, R0
+  VAND Q1, Q0, Q6
+  VSHR.S32 Q1, Q1, # E
+  VQADD.S32 Q0, Q0, Q1
+  VRSHL.S32 Q0, Q0, Q6
+  VADD.I32 Q2, Q0, Q5
+  VMOV Q1, Q5
+  VMIN.S32 Q1, Q2, Q0
+end
+
+preCond:
+    0 <= A < 2^128
+    0 <= B < 2^31
+    0 <= C < 2^128
+    0 <= D < 2^128
+    0 <= E < 2
+
+    -2^3 <= A0 < 2^6
+    -5 <= A1 < 21
+    6 <= A2 < 25
+    -4 <= A3 < 1
+
+    -2^6 <= C0 < 2^3
+    -2 <= C1 < 25
+    -6 <= C2 < 26
+    -4 <= C3 < 28
+
+    -2 <= D0 < 2^3
+    -5 <= D1 < 2
+    -6 <= D2 < 23
+    -4 <= D3 < 20
+
